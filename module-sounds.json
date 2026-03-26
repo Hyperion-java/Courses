@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-sounds",
+    "title": "Sounds & Audio Feedback",
+    "description": "Learn how to play sounds to players for effects, notifications, and immersive gameplay.",
+    "icon": "🔊",
+    "order": 4,
+    "createdAt": "2026-03-26T22:30:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-playing-sounds",
+        "title": "Playing Sounds to Players",
+        "order": 1,
+        "content": "## Introduction\nSounds enhance player experience by giving audio feedback for actions or events.\n\n### Example: Play a Level-Up Sound\n```java\nplayer.playSound(\n    player.getLocation(),\n    Sound.ENTITY_PLAYER_LEVELUP,\n    1.0f, // volume\n    1.0f  // pitch\n);\n```\n\n### Logic Explanation\n- `playSound(location, sound, volume, pitch)` plays the sound at a location.\n- Volume affects distance at which sound can be heard.\n- Pitch affects tone; higher pitch = higher frequency.\n\n### Edge Cases & Warnings\n- Ensure the `Sound` enum exists in your server version.\n- Extremely high volume or pitch can be jarring.\n- Avoid spamming sounds; may annoy players or cause lag.",
+        "quiz": [
+          {
+            "id": "quiz-sound-01",
+            "question": "Which method plays a sound for a player?",
+            "options": ["player.sendSound()", "player.playSound()", "player.sound()", "player.makeSound()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-sound-02",
+            "question": "What does the pitch parameter control?",
+            "options": ["Volume of sound", "Distance of sound", "Tone/frequency of sound", "Duration of sound"],
+            "correctIndex": 2
+          },
+          {
+            "id": "quiz-sound-03",
+            "question": "What is a potential issue with spamming sounds?",
+            "options": ["Causes lag or annoyance", "Player gains items", "Server crashes immediately", "Nothing happens"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-sound-categories",
+        "title": "Sound Categories & Context",
+        "order": 2,
+        "content": "## Introduction\nDifferent sounds belong to categories (BLOCKS, ENTITIES, MUSIC, etc.) and behave differently in volume and context.\n\n### Example: Play an Entity Sound Nearby\n```java\nLocation loc = player.getLocation();\nplayer.getWorld().playSound(\n    loc,\n    Sound.ENTITY_CREEPER_PRIMED,\n    SoundCategory.HOSTILE,\n    1.0f,\n    1.2f\n);\n```\n\n### Logic Explanation\n- `SoundCategory` determines how volume is adjusted by player settings.\n- `HOSTILE` sounds can be turned down if player lowers that category.\n- `World.playSound()` plays globally, not just to a single player.\n\n### Edge Cases & Warnings\n- Ensure you pick appropriate category; wrong category may mute or distort.\n- Volume > 1.0f may sound too loud.\n- Remember server versions may rename some sounds.",
+        "quiz": [
+          {
+            "id": "quiz-soundcat-01",
+            "question": "Which class lets you categorize sounds?",
+            "options": ["SoundType", "SoundCategory", "AudioType", "SoundGroup"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-soundcat-02",
+            "question": "What is the difference between `player.playSound` and `world.playSound`?",
+            "options": ["No difference", "player.playSound is local; world.playSound is global", "player.playSound is louder", "world.playSound only works on entities"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-sound-tips",
+        "title": "Tips & Best Practices for Sounds",
+        "order": 3,
+        "content": "## Tips\n1. Use sounds for feedback, not spam.\n2. Always test sounds on multiple clients.\n3. Match sounds to events (e.g., block breaking, entity attack).\n4. Respect volume and pitch to avoid discomfort.\n5. Consider user settings and categories.\n\n### Example: Conditional Sound\n```java\nif(player.getHealth() < 5.0) {\n    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_HURT, 1.0f, 0.8f);\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-soundtips-01",
+            "question": "Why should you avoid spamming sounds?",
+            "options": ["It causes lag and annoys players", "Players will ignore them", "They crash the server instantly", "Nothing happens"],
+            "correctIndex": 0
+          },
+          {
+            "id": "quiz-soundtips-02",
+            "question": "Which sound would best indicate low health?",
+            "options": ["ENTITY_PLAYER_LEVELUP", "ENTITY_PLAYER_HURT", "BLOCK_ANVIL_PLACE", "MUSIC_DISC_13"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
