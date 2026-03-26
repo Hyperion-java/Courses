@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-projectiles",
+    "title": "Projectiles & Arrows",
+    "description": "Learn how to control, customize, and handle projectiles like arrows, snowballs, and fireballs in Minecraft plugins.",
+    "icon": "🏹",
+    "order": 7,
+    "createdAt": "2026-03-26T23:30:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-projectiles",
+        "title": "Handling Basic Projectiles",
+        "order": 1,
+        "content": "## Introduction\nProjectiles include arrows, snowballs, eggs, fireballs, and more. You can listen to events when they hit entities or blocks.\n\n### Example: Detect Arrow Hit\n```java\n@EventHandler\npublic void onProjectileHit(ProjectileHitEvent event) {\n    Projectile projectile = event.getEntity();\n    if(projectile instanceof Arrow arrow) {\n        if(arrow.getShooter() instanceof Player player) {\n            player.sendMessage(\"Your arrow hit something!\");\n        }\n    }\n}\n```\n\n### Logic Explanation\n- `ProjectileHitEvent` triggers when a projectile hits something.\n- Use `instanceof` to determine projectile type.\n- `getShooter()` lets you identify the player who shot it.\n\n### Edge Cases & Warnings\n- Some projectiles may hit entities or blocks differently.\n- Projectiles like fireballs have explosive effects; handle with care.\n- Null checks are important; `getShooter()` may not always return a player.",
+        "quiz": [
+          {
+            "id": "quiz-projectile-01",
+            "question": "Which event fires when a projectile hits something?",
+            "options": ["ProjectileLaunchEvent", "ProjectileHitEvent", "EntityDamageByEntityEvent", "ProjectileImpactEvent"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-projectile-02",
+            "question": "Which method gets the shooter of a projectile?",
+            "options": ["getOwner()", "getPlayer()", "getShooter()", "getSource()"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "lesson-launching-projectiles",
+        "title": "Launching Custom Projectiles",
+        "order": 2,
+        "content": "## Introduction\nYou can launch projectiles programmatically and modify their speed, direction, and effects.\n\n### Example: Launch a Fireball\n```java\nFireball fireball = player.getWorld().spawn(player.getLocation().add(0, 1.5, 0), Fireball.class);\nfireball.setShooter(player);\nfireball.setVelocity(player.getLocation().getDirection().multiply(1.5));\n```\n\n### Logic Explanation\n- `spawn()` creates a projectile at a location.\n- `setShooter()` identifies the source.\n- `setVelocity(Vector)` controls speed and direction.\n\n### Edge Cases & Warnings\n- Projectiles can damage players or environment; handle carefully.\n- Velocity too high may cause unexpected behavior.\n- Some projectiles may need additional metadata for special effects.",
+        "quiz": [
+          {
+            "id": "quiz-projectile-03",
+            "question": "Which method sets the projectile’s direction and speed?",
+            "options": ["setDirection()", "setVelocity()", "launch()", "setMotion()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-projectile-04",
+            "question": "What does `setShooter()` do?",
+            "options": ["Changes projectile owner", "Sets speed", "Changes projectile type", "Detonates projectile"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-custom-effects",
+        "title": "Custom Projectile Effects",
+        "order": 3,
+        "content": "## Introduction\nYou can add custom effects when projectiles hit entities or blocks.\n\n### Example: Exploding Snowball\n```java\n@EventHandler\npublic void onSnowballHit(ProjectileHitEvent event) {\n    if(event.getEntity() instanceof Snowball) {\n        Location loc = event.getEntity().getLocation();\n        loc.getWorld().createExplosion(loc.getX(), loc.getY(), loc.getZ(), 2.0f, false, false);\n    }\n}\n```\n\n### Logic Explanation\n- Check projectile type with `instanceof`.\n- Use `createExplosion(x, y, z, power, setFire, breakBlocks)` for custom effects.\n- Can trigger sounds, particles, or potion effects as well.\n\n### Edge Cases & Warnings\n- Explosions may damage terrain or entities; use `setFire` and `breakBlocks` carefully.\n- Test server performance with multiple projectiles.\n- Some effects may need permission checks or cooldowns.",
+        "quiz": [
+          {
+            "id": "quiz-projectile-05",
+            "question": "Which method creates an explosion at a location?",
+            "options": ["World.explode()", "World.createExplosion()", "World.triggerBlast()", "World.boom()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-projectile-06",
+            "question": "Why should you be careful with explosions in plugins?",
+            "options": ["They always crash the server", "They can damage terrain and entities", "Players can’t see them", "They are invisible"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-projectile-07",
+            "question": "Which projectile type can be used to trigger a visual-only effect without damage?",
+            "options": ["Arrow", "Snowball", "Fireball", "Egg"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
