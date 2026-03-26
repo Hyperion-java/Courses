@@ -1,0 +1,132 @@
+[
+  {
+    "id": "ai-usage",
+    "title": "Using AI for Plugin Development",
+    "description": "Learn how to use AI tools like ChatGPT responsibly to help you code, debug, and learn faster without becoming dependent.",
+    "icon": "🤖",
+    "order": 3,
+    "createdAt": "2025-01-04T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "why-use-ai",
+        "title": "Why Use AI?",
+        "order": 1,
+        "content": "# Why Use AI?\n\nAI can help you:\n- Fix errors\n- Understand code\n- Learn faster\n- Get unstuck\n\n## Example\nIf your plugin crashes, you can paste the error into AI and ask:\n\"What does this error mean?\"\n\n## Logic\n- You try first\n- If stuck → use AI\n- Learn from the answer\n\n## Rule\nAI is a TOOL, not a replacement for thinking.",
+        "quiz": [
+          {
+            "id": "q1",
+            "question": "When should you use AI?",
+            "options": ["Always", "Only when stuck", "Never", "Randomly"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q2",
+            "question": "What is AI best used for?",
+            "options": ["Copying everything", "Learning and debugging", "Replacing coding", "Ignoring"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "ai-tools",
+        "title": "Popular AI Tools",
+        "order": 2,
+        "content": "# AI Tools You Can Use\n\n## ChatGPT\n- Great for explanations\n- Helps fix bugs\n\n## Google AI Studio\n- Good for experimenting\n- Can test prompts\n\n## Others\n- GitHub Copilot\n- Claude\n\n## Logic\nDifferent tools = different strengths\n\n## Tip\nTry multiple tools if one doesn’t help.",
+        "quiz": [
+          {
+            "id": "q3",
+            "question": "Which is an AI tool?",
+            "options": ["IntelliJ", "ChatGPT", "Minecraft", "PaperMC"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q4",
+            "question": "What should you do if one AI fails?",
+            "options": ["Quit", "Try another", "Delete code", "Ignore"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "how-to-prompt",
+        "title": "How to Ask AI Properly",
+        "order": 3,
+        "content": "# Writing Good Prompts\n\n## Bad Prompt\n\"Fix my code\"\n\n## Good Prompt\n\"My Minecraft plugin gives a NullPointerException when breaking a block. Here is my code: ...\"\n\n## Logic\n- More detail = better answer\n\n## Include\n- Error message\n- Code\n- What you expected\n\n## Tip\nBe specific.",
+        "quiz": [
+          {
+            "id": "q5",
+            "question": "What makes a good prompt?",
+            "options": ["Short", "Detailed", "Random", "Vague"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q6",
+            "question": "What should you include?",
+            "options": ["Nothing", "Only code", "Error + context", "Just question"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "dont-overuse",
+        "title": "Don’t Overuse AI",
+        "order": 4,
+        "content": "# Avoid Overusing AI\n\n## Problem\nIf you rely on AI too much:\n- You won’t learn\n- You’ll get stuck without it\n\n## Bad Habit\nCopy-pasting code without understanding\n\n## Good Habit\n- Read the code\n- Ask why it works\n- Modify it yourself\n\n## Rule\nIf you don’t understand it → don’t use it yet.",
+        "quiz": [
+          {
+            "id": "q7",
+            "question": "What happens if you overuse AI?",
+            "options": ["Learn faster", "Become dependent", "Improve instantly", "Nothing"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q8",
+            "question": "Best habit?",
+            "options": ["Copy everything", "Understand code", "Ignore AI", "Delete code"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "real-example",
+        "title": "Real Example: Fixing a Bug",
+        "order": 5,
+        "content": "# Example\n\n## Problem\nCommand crashes with error\n\n## Step 1\nCopy error\n\n## Step 2\nAsk AI:\n\"Why am I getting this error?\"\n\n## Step 3\nRead response\n\n## Step 4\nFix code and test\n\n## Logic\n- AI helps\n- You learn\n\n## Important\nAlways test after using AI.",
+        "quiz": [
+          {
+            "id": "q9",
+            "question": "First step when bug happens?",
+            "options": ["Delete plugin", "Copy error", "Ignore", "Restart PC"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q10",
+            "question": "After AI gives answer?",
+            "options": ["Ignore", "Test it", "Delete code", "Stop"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "best-practices",
+        "title": "Best Practices",
+        "order": 6,
+        "content": "# Best Practices\n\n- Try yourself first\n- Use AI when stuck\n- Understand everything\n- Never blindly copy\n- Test everything\n\n## Golden Rule\nAI should HELP you think, not replace thinking.",
+        "quiz": [
+          {
+            "id": "q11",
+            "question": "Golden rule?",
+            "options": ["Always use AI", "Never use AI", "Use AI to help thinking", "Ignore AI"],
+            "correctIndex": 2
+          },
+          {
+            "id": "q12",
+            "question": "Should you copy blindly?",
+            "options": ["Yes", "No", "Sometimes", "Always"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
