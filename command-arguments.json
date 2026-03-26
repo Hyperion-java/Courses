@@ -1,0 +1,194 @@
+[
+  {
+    "id": "command-arguments",
+    "title": "Mastering Command Arguments",
+    "description": "Learn how to handle, validate, and use command arguments like a pro, including players, numbers, booleans, and advanced parsing.",
+    "icon": "📦",
+    "order": 2,
+    "createdAt": "2025-01-03T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "args-basics",
+        "title": "Argument Basics",
+        "order": 1,
+        "content": "# What Are Arguments?\n\nArguments are extra words after a command.\n\nExample:\n`/heal Steve`\n\n- args[0] = \"Steve\"\n\n## Example Code\n```java\nif (args.length > 0) {\n    sender.sendMessage(\"Hello \" + args[0]);\n}\n```\n\n## Logic\n- args is an array\n- Starts at index 0\n\n## Edge Case\nAccessing args[0] without checking length will crash.",
+        "quiz": [
+          {
+            "id": "q1",
+            "question": "What is args?",
+            "options": ["String", "Array", "Player", "Command"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q2",
+            "question": "First argument index?",
+            "options": ["1", "0", "-1", "2"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q3",
+            "question": "What happens if args empty and accessed?",
+            "options": ["Nothing", "Error", "Works fine", "Returns null"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "args-validation",
+        "title": "Validating Arguments",
+        "order": 2,
+        "content": "# Validating Input\n\n## Length Check\n```java\nif (args.length < 1) {\n    sender.sendMessage(\"Usage: /heal <player>\");\n    return true;\n}\n```\n\n## Exact Length\n```java\nif (args.length != 1) {\n    sender.sendMessage(\"Invalid usage\");\n}\n```\n\n## Logic\n- Prevent errors\n- Guide user\n\n## Best Practice\nAlways validate before using args.",
+        "quiz": [
+          {
+            "id": "q4",
+            "question": "Why validate args?",
+            "options": ["Speed", "Avoid errors", "Looks nice", "No reason"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q5",
+            "question": "args.length < 1 means?",
+            "options": ["Too many args", "No args", "Correct args", "Null"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q6",
+            "question": "Best practice?",
+            "options": ["Skip validation", "Always validate", "Only sometimes", "Never"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "player-arguments",
+        "title": "Player Arguments",
+        "order": 3,
+        "content": "# Targeting Players\n\n## Example\n```java\nPlayer target = Bukkit.getPlayer(args[0]);\n\nif (target == null) {\n    sender.sendMessage(\"Player not found\");\n    return true;\n}\n\ntarget.sendMessage(\"You were targeted!\");\n```\n\n## Logic\n- Convert string → player\n- Check if exists\n\n## Edge Case\nOffline players return null.",
+        "quiz": [
+          {
+            "id": "q7",
+            "question": "What gets a player?",
+            "options": ["getUser()", "getPlayer()", "findPlayer()", "player()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q8",
+            "question": "If player not online?",
+            "options": ["Crash", "Null", "Fake player", "Error message auto"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q9",
+            "question": "Why check null?",
+            "options": ["Style", "Avoid errors", "Speed", "Optional"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "number-arguments",
+        "title": "Number Arguments",
+        "order": 4,
+        "content": "# Parsing Numbers\n\n## Example\n```java\nint amount;\n\ntry {\n    amount = Integer.parseInt(args[0]);\n} catch (NumberFormatException e) {\n    sender.sendMessage(\"Must be a number!\");\n    return true;\n}\n```\n\n## Logic\n- Convert string → int\n- Catch invalid input\n\n## Edge Case\nUser enters text → crash if not handled.",
+        "quiz": [
+          {
+            "id": "q10",
+            "question": "What converts string to int?",
+            "options": ["parseInt()", "toInt()", "int()", "convert()"],
+            "correctIndex": 0
+          },
+          {
+            "id": "q11",
+            "question": "What handles invalid numbers?",
+            "options": ["if", "try-catch", "loop", "switch"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q12",
+            "question": "Invalid number causes?",
+            "options": ["Crash", "Nothing", "Auto fix", "Warning only"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "boolean-arguments",
+        "title": "Boolean Arguments",
+        "order": 5,
+        "content": "# True/False Arguments\n\n## Example\n```java\nboolean enabled = Boolean.parseBoolean(args[0]);\n\nif (enabled) {\n    sender.sendMessage(\"Enabled!\");\n} else {\n    sender.sendMessage(\"Disabled!\");\n}\n```\n\n## Logic\n- \"true\" → true\n- Anything else → false\n\n## Warning\n\"yes\" or \"1\" = false",
+        "quiz": [
+          {
+            "id": "q13",
+            "question": "What parses boolean?",
+            "options": ["parseBool()", "Boolean.parseBoolean()", "toBoolean()", "bool()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q14",
+            "question": "\"true\" becomes?",
+            "options": ["false", "true", "null", "error"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q15",
+            "question": "\"yes\" becomes?",
+            "options": ["true", "false", "error", "null"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "multi-arguments",
+        "title": "Multiple Arguments & Subcommands",
+        "order": 6,
+        "content": "# Multiple Args\n\n## Example\n`/give Steve diamond 5`\n\n```java\nif (args.length < 3) return true;\n\nString playerName = args[0];\nString item = args[1];\nint amount = Integer.parseInt(args[2]);\n```\n\n## Logic\n- Each index = different meaning\n\n## Subcommands\n```java\nif (args[0].equalsIgnoreCase(\"give\")) {}\n```\n\n## Structure\n- args[0] = action\n- args[1+] = data",
+        "quiz": [
+          {
+            "id": "q16",
+            "question": "args[2] is?",
+            "options": ["First arg", "Second arg", "Third arg", "Fourth arg"],
+            "correctIndex": 2
+          },
+          {
+            "id": "q17",
+            "question": "What is args[0] often used for?",
+            "options": ["Amount", "Subcommand", "Player", "Item"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q18",
+            "question": "Need to check length?",
+            "options": ["No", "Yes", "Sometimes", "Never"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "advanced-parsing",
+        "title": "Advanced Parsing & Edge Cases",
+        "order": 7,
+        "content": "# Advanced Handling\n\n## Join Arguments\n```java\nString message = String.join(\" \", args);\n```\n\n## Example\n`/say Hello world`\n\n## Logic\n- Combine all args\n\n## Edge Cases\n- Empty args\n- Invalid types\n- Offline players\n\n## Best Practice\nValidate EVERYTHING before use.",
+        "quiz": [
+          {
+            "id": "q19",
+            "question": "What joins args?",
+            "options": ["merge()", "combine()", "String.join()", "concatAll()"],
+            "correctIndex": 2
+          },
+          {
+            "id": "q20",
+            "question": "Why handle edge cases?",
+            "options": ["Looks cool", "Avoid bugs", "Not needed", "Faster"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q21",
+            "question": "Best dev habit?",
+            "options": ["Ignore errors", "Validate inputs", "Skip checks", "Hardcode"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
