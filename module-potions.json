@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-potions",
+    "title": "Potion Effects & Buffs",
+    "description": "Learn how to apply, customize, and manage potion effects for players and entities in Minecraft plugins.",
+    "icon": "🧪",
+    "order": 6,
+    "createdAt": "2026-03-26T23:10:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-potions",
+        "title": "Applying Basic Potion Effects",
+        "order": 1,
+        "content": "## Introduction\nPotion effects can give players temporary buffs or debuffs, such as speed, strength, or poison.\n\n### Example: Give Speed to a Player\n```java\nplayer.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 1));\n```\n\n### Logic Explanation\n- `PotionEffectType.SPEED` is the effect type.\n- Duration is in ticks (20 ticks = 1 second).\n- Amplifier (1) makes it Speed II (amplifier + 1).\n\n### Edge Cases & Warnings\n- Effects stack carefully: adding the same effect may override the previous.\n- Duration 0 or negative values are ignored.\n- Use reasonable durations to avoid overwhelming players.",
+        "quiz": [
+          {
+            "id": "quiz-potion-01",
+            "question": "What does an amplifier of 1 mean for a potion effect?",
+            "options": ["Effect I", "Effect II", "Effect III", "Effect 0"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-potion-02",
+            "question": "PotionEffect duration is measured in?",
+            "options": ["Seconds", "Ticks", "Minutes", "Milliseconds"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-removing-potions",
+        "title": "Removing & Clearing Effects",
+        "order": 2,
+        "content": "## Introduction\nYou can remove potion effects from players to reset their buffs or debuffs.\n\n### Example: Remove Speed Effect\n```java\nplayer.removePotionEffect(PotionEffectType.SPEED);\n```\n\n### Logic Explanation\n- `removePotionEffect(effectType)` removes only the specified effect.\n- Can be used in commands, events, or scheduled tasks.\n\n### Edge Cases & Warnings\n- Removing an effect that doesn’t exist does nothing.\n- Be careful to not remove beneficial effects unintentionally.",
+        "quiz": [
+          {
+            "id": "quiz-potion-03",
+            "question": "What happens if you remove a potion effect that isn’t active?",
+            "options": ["Throws exception", "Does nothing", "Adds it instead", "Crashes the server"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-potion-04",
+            "question": "Which method removes a specific potion effect?",
+            "options": ["player.clearPotion()", "player.removePotionEffect()", "player.removeEffect()", "player.clearEffect()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-advanced-potions",
+        "title": "Advanced Potion Effects",
+        "order": 3,
+        "content": "## Introduction\nYou can create custom effects, combine multiple effects, or apply them conditionally.\n\n### Example: Apply Multiple Effects on Event\n```java\n@EventHandler\npublic void onPlayerJoin(PlayerJoinEvent event) {\n    Player player = event.getPlayer();\n    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 15, 0));\n    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 15, 1));\n}\n```\n\n### Logic Explanation\n- Apply multiple effects by calling `addPotionEffect` multiple times.\n- Conditional application can depend on events, location, health, or items.\n- Useful for events, minigames, or buffs from items.\n\n### Edge Cases & Warnings\n- Effects with higher amplifier overwrite lower ones of the same type.\n- Applying instant effects like DAMAGE may hurt the player if not careful.\n- Test durations and amplifiers for balance.",
+        "quiz": [
+          {
+            "id": "quiz-potion-05",
+            "question": "Which potion effect type heals the player over time?",
+            "options": ["SPEED", "REGENERATION", "DAMAGE_RESISTANCE", "POISON"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-potion-06",
+            "question": "Applying multiple effects of the same type with higher amplifier does what?",
+            "options": ["Stacks indefinitely", "Overwrites the lower amplifier", "Cancels all effects", "No effect"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-potion-07",
+            "question": "Instant damage effects should be applied carefully because?",
+            "options": ["They don’t work on players", "They can kill players immediately", "They are invisible", "They only last 1 tick"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
