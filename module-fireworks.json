@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-fireworks",
+    "title": "Fireworks & Particle Effects",
+    "description": "Learn how to create and customize fireworks for celebrations, events, or visual effects.",
+    "icon": "🎆",
+    "order": 5,
+    "createdAt": "2026-03-26T22:50:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-fireworks",
+        "title": "Creating Basic Fireworks",
+        "order": 1,
+        "content": "## Introduction\nFireworks are visual effects that can be spawned using the Bukkit API. They can have colors, shapes, and flicker effects.\n\n### Example: Launch a Basic Firework\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\nFireworkMeta meta = firework.getFireworkMeta();\nmeta.addEffect(FireworkEffect.builder().withColor(Color.RED).with(FireworkEffect.Type.BALL).build());\nmeta.setPower(1);\nfirework.setFireworkMeta(meta);\n```\n\n### Logic Explanation\n- `spawn(Location, Firework.class)` creates a firework entity.\n- `FireworkMeta` allows customization (color, type, flicker, trail).\n- `setPower(int)` controls flight duration.\n\n### Edge Cases & Warnings\n- High numbers of fireworks may cause client lag.\n- Ensure color and type combinations are valid.\n- Fireworks can damage nearby entities if setPower > 1.",
+        "quiz": [
+          {
+            "id": "quiz-fireworks-01",
+            "question": "Which method sets the properties of a firework?",
+            "options": ["firework.setProperties()", "firework.setFireworkMeta()", "firework.configure()", "firework.setMetaData()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-fireworks-02",
+            "question": "What does the power parameter affect?",
+            "options": ["Color intensity", "Flight duration", "Explosion size", "Sound volume"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-advanced-fireworks",
+        "title": "Advanced Firework Effects",
+        "order": 2,
+        "content": "## Introduction\nYou can create multi-colored fireworks, add trails, flicker effects, and different explosion types.\n\n### Example: Multi-color Firework with Trail\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\nFireworkMeta meta = firework.getFireworkMeta();\nFireworkEffect effect = FireworkEffect.builder()\n    .withColor(Color.RED)\n    .withColor(Color.BLUE)\n    .with(FireworkEffect.Type.STAR)\n    .withFlicker()\n    .withTrail()\n    .build();\nmeta.addEffect(effect);\nmeta.setPower(2);\nfirework.setFireworkMeta(meta);\n```\n\n### Logic Explanation\n- Multiple colors can be chained with `withColor()`.\n- `withFlicker()` adds a flicker effect.\n- `withTrail()` adds a trailing particle effect.\n- Different `Type` values create different explosion shapes.\n\n### Edge Cases & Warnings\n- Too many effects can cause client FPS drops.\n- Fireworks with `power > 3` can travel very high, be careful in small worlds.\n- Always test colors on dark/light backgrounds for visibility.",
+        "quiz": [
+          {
+            "id": "quiz-fireworks-03",
+            "question": "Which method adds flicker to a firework effect?",
+            "options": ["effect.addFlicker()", "withFlicker()", "meta.setFlicker()", "firework.flicker()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-fireworks-04",
+            "question": "What does `FireworkEffect.Type.STAR` do?",
+            "options": ["Changes color", "Sets explosion shape to a star", "Increases volume", "Adds a trail"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-fireworks-05",
+            "question": "Why should you avoid too many fireworks at once?",
+            "options": ["Server may crash", "Clients may lag", "Fireworks explode instantly", "It’s illegal in Minecraft"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-firework-tips",
+        "title": "Firework Tips & Best Practices",
+        "order": 3,
+        "content": "## Tips\n1. Use fireworks for celebrations or events.\n2. Test different shapes (BALL, STAR, BURST, CREEPER, BALL_LARGE).\n3. Combine multiple colors for visual appeal.\n4. Use `setPower()` wisely; too high can damage entities.\n5. Avoid excessive fireworks in crowded areas to reduce lag.\n\n### Example: Scheduled Firework Show\n```java\nBukkit.getScheduler().runTaskTimer(plugin, () -> {\n    Firework f = player.getWorld().spawn(player.getLocation(), Firework.class);\n    FireworkMeta meta = f.getFireworkMeta();\n    meta.addEffect(FireworkEffect.builder().withColor(Color.GREEN).with(FireworkEffect.Type.BALL).build());\n    meta.setPower(1);\n    f.setFireworkMeta(meta);\n}, 0L, 20L); // launch every second\n```",
+        "quiz": [
+          {
+            "id": "quiz-fireworks-06",
+            "question": "Which firework type is suitable for a Creeper-shaped explosion?",
+            "options": ["BALL", "CREEPER", "STAR", "BURST"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-fireworks-07",
+            "question": "Why schedule fireworks instead of spawning all at once?",
+            "options": ["To look sequential and reduce lag", "It increases explosion power", "It changes colors automatically", "There’s no difference"],
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
