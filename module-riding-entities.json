@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-riding-entities",
+    "title": "Riding & Mounting Entities",
+    "description": "Learn how to allow players to ride and control entities, spawn mounts, and manage passengers in Minecraft plugins.",
+    "icon": "🐴",
+    "order": 8,
+    "createdAt": "2026-03-26T23:50:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-riding",
+        "title": "Basic Riding Mechanics",
+        "order": 1,
+        "content": "## Introduction\nPlayers can ride entities like horses, pigs, boats, or custom mobs. Bukkit provides methods to manage passengers.\n\n### Example: Mount a Player on a Horse\n```java\nHorse horse = player.getWorld().spawn(player.getLocation(), Horse.class);\nhorse.addPassenger(player);\n```\n\n### Logic Explanation\n- `spawn(Location, Class)` creates the entity.\n- `addPassenger(Entity)` puts the player on the entity.\n- Multiple passengers can be added for some entities (e.g., boats).\n\n### Edge Cases & Warnings\n- Some entities cannot be ridden (e.g., creepers).\n- Removing the entity removes the passenger.\n- Check for nulls and ensure entity is loaded before mounting.",
+        "quiz": [
+          {
+            "id": "quiz-riding-01",
+            "question": "Which method mounts a player onto an entity?",
+            "options": ["entity.mount(player)", "entity.addPassenger(player)", "player.mount(entity)", "player.addRider(entity)"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-riding-02",
+            "question": "Can all entities be ridden?",
+            "options": ["Yes", "No, only certain entities", "Yes, with a plugin", "No, only mobs"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-controlling-entities",
+        "title": "Controlling Mounted Entities",
+        "order": 2,
+        "content": "## Introduction\nYou can control entity movement while a player is riding, such as horses or custom mounts.\n\n### Example: Controlling Horse Movement\n```java\n@EventHandler\npublic void onPlayerMove(PlayerMoveEvent event) {\n    Player player = event.getPlayer();\n    if(player.getVehicle() instanceof Horse horse) {\n        horse.setCustomName(\"§6Speedy Horse\");\n        // You can modify speed, jump strength, etc.\n        horse.setJumpStrength(0.7);\n        horse.setAI(true);\n    }\n}\n```\n\n### Logic Explanation\n- `getVehicle()` returns the entity the player is riding.\n- Horse attributes like speed and jump can be modified.\n- AI can be toggled for autonomous behavior when needed.\n\n### Edge Cases & Warnings\n- Some entities ignore AI or speed modifications.\n- Avoid applying heavy logic every tick; may cause lag.\n- Always check `instanceof` to prevent ClassCastException.",
+        "quiz": [
+          {
+            "id": "quiz-riding-03",
+            "question": "Which method gets the entity a player is riding?",
+            "options": ["player.getMount()", "player.getVehicle()", "player.getRider()", "player.getEntity()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-riding-04",
+            "question": "What does `horse.setAI(false)` do?",
+            "options": ["Disables movement and behavior", "Increases speed", "Removes passenger", "Changes color"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-custom-mounts",
+        "title": "Custom Mounts & Effects",
+        "order": 3,
+        "content": "## Introduction\nCreate custom mounts with special effects, attributes, or invisibility for unique gameplay experiences.\n\n### Example: Invisible Mount with Firework Effects\n```java\nHorse horse = player.getWorld().spawn(player.getLocation(), Horse.class);\nhorse.setInvisible(true);\nhorse.addPassenger(player);\n// Add repeating effect\nBukkit.getScheduler().runTaskTimer(plugin, () -> {\n    horse.getWorld().spawnParticle(Particle.FLAME, horse.getLocation(), 5);\n}, 0L, 5L);\n```\n\n### Logic Explanation\n- `setInvisible(true)` hides the mount visually.\n- Scheduled tasks can add continuous particle effects.\n- This allows creative mounts like flying mounts or visual illusions.\n\n### Edge Cases & Warnings\n- Invisible mounts still interact with collisions.\n- Be cautious with scheduled tasks to avoid server lag.\n- Removing the mount should clean up particles and tasks.",
+        "quiz": [
+          {
+            "id": "quiz-riding-05",
+            "question": "What does `setInvisible(true)` do to the mount?",
+            "options": ["Makes it immune to damage", "Hides it visually", "Removes passenger", "Disables AI"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-riding-06",
+            "question": "Why should scheduled particle tasks be used carefully?",
+            "options": ["They can cause server lag", "Particles may explode", "They crash clients instantly", "Particles are invisible"],
+            "correctIndex": 0
+          },
+          {
+            "id": "quiz-riding-07",
+            "question": "Can a player ride multiple passengers on a single horse?",
+            "options": ["Yes, always", "No, horses allow only one passenger", "Yes, with invisible mounts", "Only with boats"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
