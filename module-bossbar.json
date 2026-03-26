@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-bossbar",
+    "title": "Boss Bars (1.9+)",
+    "description": "Learn how to create and manage boss bars for displaying health, progress, or custom messages to players.",
+    "icon": "🎯",
+    "order": 9,
+    "createdAt": "2026-03-27T00:10:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-bossbar",
+        "title": "Creating a Basic Boss Bar",
+        "order": 1,
+        "content": "## Introduction\nBoss bars are progress bars displayed at the top of the screen. They can show health, timers, or custom messages.\n\n### Example: Create and Display Boss Bar\n```java\nBossBar bar = Bukkit.createBossBar(\"§6Defeat the Dragon!\", BarColor.RED, BarStyle.SOLID);\nbar.addPlayer(player);\nbar.setProgress(1.0); // Full bar\n```\n\n### Logic Explanation\n- `createBossBar(String title, BarColor color, BarStyle style)` creates a new bar.\n- `addPlayer(Player)` shows the bar to a player.\n- `setProgress(double)` controls the fill (0.0 to 1.0).\n\n### Edge Cases & Warnings\n- Boss bars only appear for players added via `addPlayer`.\n- `setProgress` values outside 0.0-1.0 are clamped.\n- Remove players when they leave to avoid memory leaks.",
+        "quiz": [
+          {
+            "id": "quiz-bossbar-01",
+            "question": "Which method displays the boss bar to a player?",
+            "options": ["bar.show()", "bar.addPlayer()", "bar.setVisible(true)", "bar.display()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-bossbar-02",
+            "question": "What is the valid range for boss bar progress?",
+            "options": ["0-100", "0-1", "1-10", "-1 to 1"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-updating-bossbar",
+        "title": "Updating Boss Bar Progress and Title",
+        "order": 2,
+        "content": "## Introduction\nBoss bars can dynamically update their progress and title for timers or event tracking.\n\n### Example: Countdown Boss Bar\n```java\nBukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable() {\n    double progress = 1.0;\n    @Override\n    public void run() {\n        progress -= 0.05;\n        if(progress <= 0) {\n            bar.removePlayer(player);\n            cancel();\n        } else {\n            bar.setProgress(progress);\n            bar.setTitle(\"§cTime remaining: \" + (int)(progress*20) + \"s\");\n        }\n    }\n}, 0L, 20L); // Every second\n```\n\n### Logic Explanation\n- `setProgress()` updates the fill dynamically.\n- `setTitle()` updates the displayed message.\n- Scheduled tasks allow countdowns or live updates.\n\n### Edge Cases & Warnings\n- Avoid updating every tick unnecessarily; use a reasonable interval.\n- Always remove players to prevent invisible bars lingering.\n- Rapid updates may cause client visual glitches.",
+        "quiz": [
+          {
+            "id": "quiz-bossbar-03",
+            "question": "Which method changes the text displayed on a boss bar?",
+            "options": ["setText()", "setMessage()", "setTitle()", "updateTitle()"],
+            "correctIndex": 2
+          },
+          {
+            "id": "quiz-bossbar-04",
+            "question": "Why should you remove players from boss bars when done?",
+            "options": ["Prevent memory leaks and lingering bars", "It’s required by API", "Players get kicked", "Bars disappear automatically anyway"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-bossbar-styles",
+        "title": "Boss Bar Colors & Styles",
+        "order": 3,
+        "content": "## Introduction\nBoss bars can have different colors and styles to match events or aesthetics.\n\n### Example: Colored and Segmented Boss Bar\n```java\nBossBar bar = Bukkit.createBossBar(\"§aChallenge\", BarColor.GREEN, BarStyle.SEGMENTED_10);\nbar.addPlayer(player);\nbar.setProgress(0.7);\n```\n\n### Logic Explanation\n- `BarColor` options: RED, GREEN, BLUE, YELLOW, PURPLE, WHITE.\n- `BarStyle` options: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20.\n- Segmented bars show divisions, useful for HP or stages.\n\n### Edge Cases & Warnings\n- Segmented bars may not align with actual progress perfectly; calculate carefully.\n- Colors are visual only; players may not interpret meaning without context.\n- Keep boss bars relevant; too many can clutter the screen.",
+        "quiz": [
+          {
+            "id": "quiz-bossbar-05",
+            "question": "Which style shows a solid, continuous bar?",
+            "options": ["SEGMENTED_10", "SOLID", "SEGMENTED_6", "SEGMENTED_12"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-bossbar-06",
+            "question": "How many segments does SEGMENTED_10 have?",
+            "options": ["6", "10", "12", "20"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-bossbar-07",
+            "question": "Which BarColor is NOT valid?",
+            "options": ["RED", "GREEN", "ORANGE", "PURPLE"],
+            "correctIndex": 2
+          }
+        ]
+      }
+    ]
+  }
+]
