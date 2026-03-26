@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-world-control",
+    "title": "World, Weather & Time Control",
+    "description": "Learn to manipulate Minecraft worlds, control weather, and adjust time using plugins.",
+    "icon": "🌍",
+    "order": 2,
+    "createdAt": "2026-03-26T21:50:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-world-management",
+        "title": "World Management Basics",
+        "order": 1,
+        "content": "## Introduction\nMinecraft worlds can be accessed and controlled using the Bukkit/Paper API.\n\n### Example: Teleporting a Player to a Specific World\n```java\nWorld world = Bukkit.getWorld(\"world_nether\");\nif(world != null) {\n    player.teleport(world.getSpawnLocation());\n}\n```\n\n### Logic Explanation\n- `Bukkit.getWorld(name)` retrieves the world object.\n- Always check for null (world might not exist).\n- `teleport()` moves the player safely.\n\n### Edge Cases & Warnings\n- Attempting to teleport to a null world causes errors.\n- Ensure world is loaded (`Bukkit.createWorld()` if needed).",
+        "quiz": [
+          {
+            "id": "quiz-world-01",
+            "question": "What does `Bukkit.getWorld(\"world_nether\")` return if the world does not exist?",
+            "options": ["A new world", "null", "Throws exception", "An empty world object"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-world-02",
+            "question": "Which method moves a player to a location?",
+            "options": ["player.move()", "player.setPosition()", "player.teleport()", "player.sendTo()"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "lesson-weather-control",
+        "title": "Changing Weather",
+        "order": 2,
+        "content": "## Introduction\nYou can control weather conditions in a world programmatically.\n\n### Example: Clear Weather Command\n```java\nWorld world = player.getWorld();\nworld.setStorm(false); // stop rain\nworld.setThundering(false); // stop thunder\nworld.setWeatherDuration(6000); // duration in ticks\n```\n\n### Logic Explanation\n- `setStorm(false)` stops rain.\n- `setThundering(false)` stops thunder.\n- Weather duration is in ticks (20 ticks = 1 second).\n\n### Edge Cases & Warnings\n- Players might see delayed weather changes due to client sync.\n- Avoid repeatedly changing weather every tick (performance issues).",
+        "quiz": [
+          {
+            "id": "quiz-weather-01",
+            "question": "How many ticks are in one second in Minecraft?",
+            "options": ["10", "20", "50", "100"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-weather-02",
+            "question": "Which method stops thunder?",
+            "options": ["world.stopThunder()", "world.setThundering(false)", "world.clearStorm()", "world.removeThunder()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-time-control",
+        "title": "Setting World Time",
+        "order": 3,
+        "content": "## Introduction\nYou can manipulate the time in a world to create day/night cycles or custom events.\n\n### Example: Set World to Noon\n```java\nWorld world = player.getWorld();\nworld.setTime(6000); // 0 = sunrise, 6000 = noon, 12000 = sunset, 18000 = midnight\n```\n\n### Logic Explanation\n- Time is in ticks, ranging 0-23999.\n- Use `world.getTime()` to read current time.\n- Can combine with scheduled tasks for dynamic day/night cycles.\n\n### Edge Cases & Warnings\n- Rapidly changing time may look glitchy to players.\n- Be careful on servers with multiple worlds, adjust the correct world only.",
+        "quiz": [
+          {
+            "id": "quiz-time-01",
+            "question": "What tick value represents midnight?",
+            "options": ["0", "6000", "12000", "18000"],
+            "correctIndex": 3
+          },
+          {
+            "id": "quiz-time-02",
+            "question": "Which method reads the current world time?",
+            "options": ["world.getCurrentTime()", "world.getTime()", "world.time()", "world.readTime()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-time-03",
+            "question": "Rapidly changing time every tick can cause?",
+            "options": ["Lag or visual glitches", "Player teleport", "Weather reset", "World unload"],
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
