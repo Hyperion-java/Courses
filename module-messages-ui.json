@@ -1,0 +1,78 @@
+[
+  {
+    "id": "module-messages-ui",
+    "title": "Action Bars, Titles & Tab Lists",
+    "description": "Learn how to send messages to players using action bars, titles, and customize the player tab list.",
+    "icon": "💬",
+    "order": 3,
+    "createdAt": "2026-03-26T22:10:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-action-bar",
+        "title": "Action Bar Messages",
+        "order": 1,
+        "content": "## Introduction\nAction bars are short messages that appear above the player's hotbar for a few seconds.\n\n### Example: Send an Action Bar Message\n```java\nplayer.sendActionBar(Component.text(\"§aYou received a buff!\"));\n```\n\n### Logic Explanation\n- `sendActionBar` displays temporary messages.\n- `Component.text()` allows color codes and formatting.\n\n### Edge Cases & Warnings\n- Messages are short-lived (3-5 seconds).\n- Frequent updates can cause flickering.\n- Only visible to the player receiving it.",
+        "quiz": [
+          {
+            "id": "quiz-actionbar-01",
+            "question": "Where does an action bar message appear?",
+            "options": ["Chat box", "Above hotbar", "Title screen", "Tab list"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-actionbar-02",
+            "question": "Which class is used to format colored text?",
+            "options": ["ChatColor", "Component", "TextBuilder", "MessageFormatter"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-titles",
+        "title": "Titles and Subtitles",
+        "order": 2,
+        "content": "## Introduction\nTitles are large messages displayed in the center of the screen, often with subtitles.\n\n### Example: Send Title and Subtitle\n```java\nplayer.showTitle(Title.title(\n    Component.text(\"§6Welcome!\"),\n    Component.text(\"§eEnjoy your adventure\"),\n    Title.Times.of(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))\n));\n```\n\n### Logic Explanation\n- `Title.title(main, subtitle, times)` sends both main title and subtitle.\n- `Title.Times.of(fadeIn, stay, fadeOut)` controls animation duration.\n\n### Edge Cases & Warnings\n- Use short messages for clarity.\n- Overusing titles can annoy players.\n- Titles override previous titles until faded out.",
+        "quiz": [
+          {
+            "id": "quiz-title-01",
+            "question": "Which method sends a title to a player?",
+            "options": ["player.sendTitle()", "player.showTitle()", "player.displayTitle()", "player.title()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-title-02",
+            "question": "Which duration is for the message to stay visible?",
+            "options": ["fadeIn", "fadeOut", "stay", "delay"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "lesson-tablist",
+        "title": "Customizing Player Tab List",
+        "order": 3,
+        "content": "## Introduction\nThe tab list shows all online players; you can customize header, footer, and even individual names.\n\n### Example: Set Tab Header and Footer\n```java\nplayer.sendPlayerListHeaderAndFooter(\n    Component.text(\"§6Welcome to the Server\"),\n    Component.text(\"§eHave fun!\"));\n```\n\n### Logic Explanation\n- `sendPlayerListHeaderAndFooter(header, footer)` updates the tab list.\n- Components allow colors, formatting, and line breaks.\n- You can update periodically for dynamic effects.\n\n### Edge Cases & Warnings\n- Keep messages short; long headers can look bad.\n- Avoid frequent updates to prevent packet spam.\n- Different Minecraft versions may handle line breaks differently.",
+        "quiz": [
+          {
+            "id": "quiz-tablist-01",
+            "question": "Which method updates the tab list header and footer?",
+            "options": ["player.updateTabList()", "player.setTabHeaderFooter()", "player.sendPlayerListHeaderAndFooter()", "player.tabList()"],
+            "correctIndex": 2
+          },
+          {
+            "id": "quiz-tablist-02",
+            "question": "Why avoid frequent updates to tab list?",
+            "options": ["It causes server crashes", "Packet spam and flickering", "Players cannot see updates", "No reason"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-tablist-03",
+            "question": "Can tab list messages include colors?",
+            "options": ["Yes, using Components", "No, only plain text", "Yes, but only for footer", "Yes, but only for header"],
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
