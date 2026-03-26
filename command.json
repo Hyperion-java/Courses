@@ -1,8 +1,8 @@
 [
   {
-    "id": "first-command",
-    "title": "Creating Your First Command",
-    "description": "Learn how to make a basic command in a Minecraft plugin.",
+    "id": "commands-system",
+    "title": "Mastering Minecraft Commands",
+    "description": "Learn how to create powerful commands in your Minecraft plugin with arguments, permissions, tab completion, and more.",
     "icon": "🛠️",
     "order": 0,
     "createdAt": "2025-01-01T00:00:00.000Z",
@@ -11,20 +11,163 @@
         "id": "command-basics",
         "title": "Command Basics",
         "order": 1,
-        "content": "# Creating Your First Command\n\nIn this lesson, you'll learn how to make a simple command in a Minecraft plugin.\n\n## Step 1: Register the Command\nGo to your `plugin.yml` file and add:\n\n```yml\ncommands:\n  hello:\n    description: Says hello\n```\n\n## Step 2: Create the Command in Java\n\n```java\npublic class HelloCommand implements CommandExecutor {\n\n    @Override\n    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {\n        sender.sendMessage(\"Hello, world!\");\n        return true;\n    }\n}\n```\n\n## Step 3: Register in Main Class\n\n```java\ngetCommand(\"hello\").setExecutor(new HelloCommand());\n```\n\n## Step 4: Test It\nRun your server and type `/hello` in chat.\n\nYou should see: Hello, world!\n\n## Done 🎉\nYou've created your first command!",
-        "videoUrl": "",
+        "content": "# Creating Your First Command\n\n## Step 1: Register in plugin.yml\n```yml\ncommands:\n  hello:\n    description: Says hello\n```\n\n## Step 2: Command Class\n```java\npublic class HelloCommand implements CommandExecutor {\n    @Override\n    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {\n        sender.sendMessage(\"Hello, world!\");\n        return true;\n    }\n}\n```\n\n## Step 3: Register in Main Class\n```java\ngetCommand(\"hello\").setExecutor(new HelloCommand());\n```\n\n## Logic\n- Player types command\n- Server finds command\n- Executes onCommand()\n\n## Test\nRun `/hello` in game.",
         "quiz": [
           {
             "id": "q1",
-            "question": "Where do you register a command?",
-            "options": ["config.yml", "plugin.yml", "server.properties", "commands.yml"],
+            "question": "Where are commands registered?",
+            "options": ["config.yml", "plugin.yml", "server.properties", "bukkit.yml"],
             "correctIndex": 1
           },
           {
             "id": "q2",
-            "question": "What method handles commands?",
-            "options": ["onEnable()", "onCommand()", "run()", "executeCommand()"],
+            "question": "What method runs commands?",
+            "options": ["onEnable()", "onCommand()", "run()", "execute()"],
             "correctIndex": 1
+          },
+          {
+            "id": "q3",
+            "question": "Who can run commands?",
+            "options": ["Only players", "Only console", "Both", "Neither"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "command-sender",
+        "title": "Command Sender & Player Checks",
+        "order": 2,
+        "content": "# Command Sender\n\nCommands can be run by players OR console.\n\n## Example\n```java\nif (!(sender instanceof Player)) {\n    sender.sendMessage(\"Only players can use this!\");\n    return true;\n}\n\nPlayer player = (Player) sender;\nplayer.sendMessage(\"Hello player!\");\n```\n\n## Logic\n- Check sender type\n- Cast safely\n\n## Edge Case\nConsole has no location or inventory.",
+        "quiz": [
+          {
+            "id": "q4",
+            "question": "What type is sender?",
+            "options": ["Player", "CommandSender", "Console", "Executor"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q5",
+            "question": "Why check instanceof Player?",
+            "options": ["For speed", "To avoid errors", "For fun", "Not needed"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q6",
+            "question": "Console is a?",
+            "options": ["Player", "CommandSender", "Block", "Entity"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "arguments",
+        "title": "Using Arguments",
+        "order": 3,
+        "content": "# Arguments\n\nArguments are extra inputs after a command.\n\n## Example\n`/hello Steve`\n\n```java\nif (args.length > 0) {\n    sender.sendMessage(\"Hello \" + args[0]);\n} else {\n    sender.sendMessage(\"Hello!\");\n}\n```\n\n## Logic\n- args[0] = first word\n- Always check length first\n\n## Edge Case\nAccessing args[0] without checking causes errors.",
+        "quiz": [
+          {
+            "id": "q7",
+            "question": "What is args[0]?",
+            "options": ["Command name", "First argument", "Player", "Plugin"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q8",
+            "question": "What must you check first?",
+            "options": ["args.length", "sender", "command", "plugin"],
+            "correctIndex": 0
+          },
+          {
+            "id": "q9",
+            "question": "What happens if args empty?",
+            "options": ["Works fine", "Error", "Server crash", "Nothing"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "permissions",
+        "title": "Permissions",
+        "order": 4,
+        "content": "# Permissions\n\n## plugin.yml\n```yml\ncommands:\n  hello:\n    permission: myplugin.hello\n```\n\n## Java Check\n```java\nif (!sender.hasPermission(\"myplugin.hello\")) {\n    sender.sendMessage(\"No permission!\");\n    return true;\n}\n```\n\n## Logic\n- Check before running command\n\n## Test\nTry command without permission.",
+        "quiz": [
+          {
+            "id": "q10",
+            "question": "What checks permission?",
+            "options": ["hasPerm()", "checkPerm()", "hasPermission()", "perm()"],
+            "correctIndex": 2
+          },
+          {
+            "id": "q11",
+            "question": "Where define permission?",
+            "options": ["config.yml", "plugin.yml", "code only", "server.properties"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "tab-completion",
+        "title": "Tab Completion",
+        "order": 5,
+        "content": "# Tab Completion\n\n## Example\n```java\npublic class HelloTab implements TabCompleter {\n    @Override\n    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {\n        if (args.length == 1) {\n            return Arrays.asList(\"Steve\", \"Alex\");\n        }\n        return Collections.emptyList();\n    }\n}\n```\n\n## Register\n```java\ngetCommand(\"hello\").setTabCompleter(new HelloTab());\n```\n\n## Logic\n- Suggest options based on args length",
+        "quiz": [
+          {
+            "id": "q12",
+            "question": "What interface for tab?",
+            "options": ["TabExecutor", "TabCompleter", "CommandTab", "Completer"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q13",
+            "question": "When does tab run?",
+            "options": ["On enter", "On typing", "On join", "Never"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "advanced-commands",
+        "title": "Advanced Command Logic",
+        "order": 6,
+        "content": "# Subcommands\n\n## Example\n```java\nif (args.length == 0) {\n    sender.sendMessage(\"/hello reload\");\n    return true;\n}\n\nif (args[0].equalsIgnoreCase(\"reload\")) {\n    sender.sendMessage(\"Reloaded!\");\n}\n```\n\n## Logic\n- args[0] decides action\n\n## Expand\n- /hello give\n- /hello reload\n- /hello info",
+        "quiz": [
+          {
+            "id": "q14",
+            "question": "What is args[0] used for?",
+            "options": ["Plugin name", "Subcommand", "Player", "Permission"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q15",
+            "question": "equalsIgnoreCase does?",
+            "options": ["Ignores caps", "Deletes text", "Crashes", "Nothing"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "testing-debugging",
+        "title": "Testing & Debugging Commands",
+        "order": 7,
+        "content": "# Debugging\n\n## Example\n```java\ngetLogger().info(\"Command executed\");\n```\n\n## Common Errors\n- Command not in plugin.yml\n- Not registered\n- Wrong spelling\n\n## Testing Steps\n1. Run command\n2. Check console\n3. Add logs\n\n## Edge Case\nCommand returns false → shows usage message",
+        "quiz": [
+          {
+            "id": "q16",
+            "question": "If command not working?",
+            "options": ["Check plugin.yml", "Ignore", "Delete code", "Restart PC"],
+            "correctIndex": 0
+          },
+          {
+            "id": "q17",
+            "question": "Returning false does?",
+            "options": ["Nothing", "Shows usage", "Crashes", "Stops server"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q18",
+            "question": "Best debug method?",
+            "options": ["Logs", "Guessing", "Deleting", "Skipping"],
+            "correctIndex": 0
           }
         ]
       }
