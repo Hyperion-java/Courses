@@ -1,0 +1,72 @@
+[
+  {
+    "id": "module-toggling",
+    "title": "Toggling Features & States",
+    "description": "Learn how to implement toggles for plugin features, player states, and custom mechanics in Minecraft.",
+    "icon": "🔄",
+    "order": 10,
+    "createdAt": "2026-03-27T00:30:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-basic-toggle",
+        "title": "Basic Toggle Implementation",
+        "order": 1,
+        "content": "## Introduction\nToggles are simple on/off switches for features like flying, particle effects, or custom powers.\n\n### Example: Toggle Player Flight\n```java\nMap<UUID, Boolean> flyingPlayers = new HashMap<>();\n\npublic void toggleFlight(Player player) {\n    boolean currentlyFlying = flyingPlayers.getOrDefault(player.getUniqueId(), false);\n    player.setAllowFlight(!currentlyFlying);\n    player.setFlying(!currentlyFlying);\n    flyingPlayers.put(player.getUniqueId(), !currentlyFlying);\n    player.sendMessage(\"Flight is now \" + (!currentlyFlying ? \"enabled\" : \"disabled\"));\n}\n```\n\n### Logic Explanation\n- Store toggle state in a Map using player UUID.\n- Flip state each time method is called.\n- Provide feedback to the player with a message.\n\n### Edge Cases & Warnings\n- Always check permissions if needed.\n- Ensure toggles persist if necessary (e.g., saved in config for reload).\n- Avoid storing too many temporary maps without cleanup.",
+        "quiz": [
+          {
+            "id": "quiz-toggle-01",
+            "question": "Which data structure is used to store toggle states per player?",
+            "options": ["List<Player>", "Set<Player>", "Map<UUID, Boolean>", "Array<Player>"],
+            "correctIndex": 2
+          },
+          {
+            "id": "quiz-toggle-02",
+            "question": "What does `player.setAllowFlight(false)` do?",
+            "options": ["Prevents the player from flying", "Removes player from server", "Enables speed boost", "Gives invisibility"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-feature-toggles",
+        "title": "Toggling Custom Features",
+        "order": 2,
+        "content": "## Introduction\nToggles are also useful for custom powers, particle effects, or abilities.\n\n### Example: Toggle Particle Trail\n```java\nMap<UUID, Boolean> trailToggles = new HashMap<>();\n\npublic void toggleTrail(Player player) {\n    boolean hasTrail = trailToggles.getOrDefault(player.getUniqueId(), false);\n    trailToggles.put(player.getUniqueId(), !hasTrail);\n    player.sendMessage(\"Particle trail \" + (!hasTrail ? \"enabled\" : \"disabled\"));\n}\n```\n\n### Logic Explanation\n- Same principle as flight toggle.\n- Can be used for any on/off plugin feature.\n- Check toggle state in events (e.g., `PlayerMoveEvent` to spawn particles).\n\n### Edge Cases & Warnings\n- Remember to remove players from toggle map if they leave the server to avoid memory leaks.\n- Consider using persistent storage if toggle should survive restarts.",
+        "quiz": [
+          {
+            "id": "quiz-toggle-03",
+            "question": "Where should you check toggle state for movement-based effects?",
+            "options": ["PlayerJoinEvent", "PlayerMoveEvent", "BlockBreakEvent", "PlayerQuitEvent"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-toggle-04",
+            "question": "Why should toggle maps be cleaned when players leave?",
+            "options": ["To avoid memory leaks", "To reset the server", "It’s required by Bukkit", "Nothing happens"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "lesson-persistent-toggles",
+        "title": "Persistent Toggles Across Sessions",
+        "order": 3,
+        "content": "## Introduction\nSome toggles should remain active even after the player leaves or the server restarts.\n\n### Example: Save Toggles in Config\n```java\n// On toggle change\nconfig.set(\"players.\" + player.getUniqueId() + \".flight\", !currentlyFlying);\nsaveConfig();\n\n// On player join\nboolean enabled = config.getBoolean(\"players.\" + player.getUniqueId() + \".flight\", false);\nplayer.setAllowFlight(enabled);\nplayer.setFlying(enabled);\n```\n\n### Logic Explanation\n- Store toggle state in config.yml or database.\n- Load toggle state when player joins.\n- Ensures features persist across sessions.\n\n### Edge Cases & Warnings\n- Config writes on every toggle may cause IO overhead; consider batching.\n- Default values prevent null errors.\n- Always validate data read from config.",
+        "quiz": [
+          {
+            "id": "quiz-toggle-05",
+            "question": "Why use persistent storage for toggles?",
+            "options": ["To keep toggle state after server restarts", "It’s required by API", "To speed up toggle flipping", "No reason"],
+            "correctIndex": 0
+          },
+          {
+            "id": "quiz-toggle-06",
+            "question": "What is a potential issue with saving config on every toggle?",
+            "options": ["IO overhead", "Crashes client", "Deletes player", "Nothing happens"],
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
