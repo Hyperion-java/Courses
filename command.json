@@ -1,0 +1,33 @@
+[
+  {
+    "id": "first-command",
+    "title": "Creating Your First Command",
+    "description": "Learn how to make a basic command in a Minecraft plugin.",
+    "icon": "🛠️",
+    "order": 0,
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "command-basics",
+        "title": "Command Basics",
+        "order": 1,
+        "content": "# Creating Your First Command\n\nIn this lesson, you'll learn how to make a simple command in a Minecraft plugin.\n\n## Step 1: Register the Command\nGo to your `plugin.yml` file and add:\n\n```yml\ncommands:\n  hello:\n    description: Says hello\n```\n\n## Step 2: Create the Command in Java\n\n```java\npublic class HelloCommand implements CommandExecutor {\n\n    @Override\n    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {\n        sender.sendMessage(\"Hello, world!\");\n        return true;\n    }\n}\n```\n\n## Step 3: Register in Main Class\n\n```java\ngetCommand(\"hello\").setExecutor(new HelloCommand());\n```\n\n## Step 4: Test It\nRun your server and type `/hello` in chat.\n\nYou should see: Hello, world!\n\n## Done 🎉\nYou've created your first command!",
+        "videoUrl": "",
+        "quiz": [
+          {
+            "id": "q1",
+            "question": "Where do you register a command?",
+            "options": ["config.yml", "plugin.yml", "server.properties", "commands.yml"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q2",
+            "question": "What method handles commands?",
+            "options": ["onEnable()", "onCommand()", "run()", "executeCommand()"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
