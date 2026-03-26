@@ -11,7 +11,7 @@
         "id": "environment-setup",
         "title": "Setting Up the Environment",
         "order": 1,
-        "content": "# Setting Up Your Workspace\n\nTo start developing plugins, you need the right tools. This lesson covers installing the necessary software and plugins.\n\n## Step 1: Install IntelliJ IDEA\nDownload the **Community Edition** of IntelliJ IDEA. It is the best code editor for Java/Kotlin development [00:00:22].\n\n## Step 2: Install Minecraft Development Plugin\n1. Open IntelliJ and go to **Plugins**.\n2. Search for 'Minecraft Development' and install it [00:00:50]. This provides templates for Spigot, Paper, and Forge.\n\n## Step 3: Configure the JDK\nMinecraft 1.18+ requires **Java 17**. If you don't have it, use the 'Download JDK' option within the project creator [00:01:29].",
+        "content": "# Setting Up Your Workspace\n\nTo start developing plugins, you need the right tools. This lesson covers installing the necessary software and plugins.\n\n## Step 1: Install IntelliJ IDEA\nDownload the **Community Edition** of IntelliJ IDEA. It is the best code editor for Java/Kotlin development.\n\n## Step 2: Install Minecraft Development Plugin\n1. Open IntelliJ and go to **Plugins**.\n2. Search for 'Minecraft Development' and install it. This provides templates for Spigot, Paper, and Forge.\n\n## Step 3: Configure the JDK\nMinecraft 1.18+ requires **Java 17**. If you don't have it, use the 'Download JDK' option within the project creator.",
         "videoUrl": "https://www.youtube.com/watch?v=5DBJcz0ceaw",
         "quiz": [
           {
@@ -32,8 +32,17 @@
         "id": "hello-world-java",
         "title": "Your First 'Hello World'",
         "order": 2,
-        "content": "# Creating a Hello World Plugin\n\nLearn how to send a message to the server console when your plugin enables.\n\n## Step 1: Project Metadata\n- **Group ID**: Usually a reversed domain (e.g., `me.yourname`) [00:01:56].\n- **Artifact ID**: Your project name in lowercase with no spaces [00:02:41].\n\n## Step 2: Logging a Message\nInstead of using `Bukkit.getConsoleSender()`, use the built-in logger for cleaner logs [00:04:13].\n\n
-http://googleusercontent.com/immersive_entry_chip/0
-
-
-http://googleusercontent.com/youtube_content/0
+        "content": "# Creating a Hello World Plugin\n\nLearn how to send a message to the server console when your plugin enables.\n\n## Step 1: Project Metadata\n- **Group ID**: Usually a reversed domain (e.g., `me.yourname`).\n- **Artifact ID**: Your project name in lowercase with no spaces.\n\n## Step 2: Logging a Message\nInstead of using `Bukkit.getConsoleSender()`, use the built-in logger for cleaner logs.\n\n## Example Code\n```java\n@Override\npublic void onEnable() {\n    getLogger().info(\"Hello world! Plugin enabled.\");\n}\n```",
+        "videoUrl": "https://www.youtube.com/watch?v=5DBJcz0ceaw",
+        "quiz": [
+          {
+            "id": "q3",
+            "question": "What method is called when a plugin is enabled?",
+            "options": ["onStart()", "onEnable()", "onLoad()", "onInit()"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
