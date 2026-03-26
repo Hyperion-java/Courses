@@ -1,0 +1,158 @@
+[
+  {
+    "id": "blocks-items-materials",
+    "title": "Blocks, ItemStacks & Materials",
+    "description": "Learn how to work with Minecraft blocks, items, and materials, including placing, modifying, creating ItemStacks, and custom attributes.",
+    "icon": "🧱",
+    "order": 5,
+    "createdAt": "2025-01-06T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "blocks-basics",
+        "title": "Blocks Basics",
+        "order": 1,
+        "content": "# Working with Blocks\n\nBlocks are the basic building units in Minecraft.\n\n## Example: Place a Block\n```java\nLocation loc = player.getLocation();\nloc.getBlock().setType(Material.DIAMOND_BLOCK);\n```\n\n## Logic\n- getBlock() → returns the block at the location\n- setType(Material) → changes the block type\n\n## Edge Cases\n- Overwriting blocks may remove existing structures\n- Some blocks require correct placement (e.g., redstone components)",
+        "quiz": [
+          {
+            "id": "q1",
+            "question": "Method to get a block at a location?",
+            "options": ["getBlock()", "getMaterial()", "getType()", "getLocation()"],
+            "correctIndex": 0
+          },
+          {
+            "id": "q2",
+            "question": "Method to set a block type?",
+            "options": ["setBlock()", "setMaterial()", "setType()", "changeBlock()"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "itemstack-basics",
+        "title": "ItemStack Basics",
+        "order": 2,
+        "content": "# Creating ItemStacks\n\nItemStacks represent items in inventories.\n\n## Example: Give Player an Item\n```java\nItemStack diamond = new ItemStack(Material.DIAMOND, 5);\nplayer.getInventory().addItem(diamond);\n```\n\n## Logic\n- ItemStack(material, amount) creates item\n- addItem() adds to inventory\n\n## Edge Cases\n- Inventory full → item may drop on ground",
+        "quiz": [
+          {
+            "id": "q3",
+            "question": "ItemStack represents?",
+            "options": ["Block only", "Inventory items", "Player only", "World objects"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q4",
+            "question": "Constructor for 5 diamonds?",
+            "options": ["new ItemStack(Material.DIAMOND, 5)", "new Item(Material.DIAMOND,5)", "ItemStack(DIAMOND,5)", "Item(Material.DIAMOND,5)"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "custom-item-names",
+        "title": "Custom Item Names & Lore",
+        "order": 3,
+        "content": "# Naming & Lore\n\n## Example\n```java\nItemStack sword = new ItemStack(Material.DIAMOND_SWORD);\nItemMeta meta = sword.getItemMeta();\nmeta.setDisplayName(\"§6Epic Sword\");\nmeta.setLore(Arrays.asList(\"Sharp and shiny\", \"Handle with care\"));\nsword.setItemMeta(meta);\nplayer.getInventory().addItem(sword);\n```\n\n## Logic\n- ItemMeta stores display name, lore, enchantments, etc.\n- setItemMeta() applies the changes\n\n## Edge Cases\n- Some items cannot have certain meta (e.g., AIR)\n- Too long lore may overflow chat",
+        "quiz": [
+          {
+            "id": "q5",
+            "question": "Method to set custom name?",
+            "options": ["setName()", "setDisplayName()", "name()", "display()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q6",
+            "question": "Method to add lore?",
+            "options": ["setLore()", "addLore()", "lore()", "setDescription()"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "item-enchantments",
+        "title": "Item Enchantments & Flags",
+        "order": 4,
+        "content": "# Adding Enchantments\n\n## Example\n```java\nItemStack sword = new ItemStack(Material.DIAMOND_SWORD);\nItemMeta meta = sword.getItemMeta();\nmeta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);\nmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);\nsword.setItemMeta(meta);\nplayer.getInventory().addItem(sword);\n```\n\n## Logic\n- addEnchant(Enchantment, level, ignoreLevelRestriction)\n- ItemFlag hides visuals like enchantment glow\n\n## Edge Cases\n- Level too high → may break balance\n- Some enchantments incompatible with certain items",
+        "quiz": [
+          {
+            "id": "q7",
+            "question": "Method to enchant item?",
+            "options": ["enchant()", "addEnchant()", "setEnchant()", "applyEnchant()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q8",
+            "question": "Hiding enchant visuals?",
+            "options": ["hide()", "ItemFlag.HIDE_ENCHANTS", "setInvisible()", "removeGlow()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "material-types",
+        "title": "Understanding Materials",
+        "order": 5,
+        "content": "# Materials Overview\n\nMaterials define the type of block or item.\n\n## Example\n```java\nMaterial mat = Material.DIAMOND_BLOCK;\nMaterial mat2 = Material.OAK_PLANKS;\n```\n\n## Logic\n- Use Material enum\n- Matches any block/item type\n\n## Edge Cases\n- Some materials deprecated\n- Not all materials usable in certain versions",
+        "quiz": [
+          {
+            "id": "q9",
+            "question": "What is Material?",
+            "options": ["String", "Enum", "Integer", "Class"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q10",
+            "question": "Material.DIAMOND_BLOCK refers to?",
+            "options": ["An item", "A block", "An entity", "A player"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "block-interactions",
+        "title": "Block Interactions & Events",
+        "order": 6,
+        "content": "# Listening to Block Events\n\n## Example: Detect Block Break\n```java\n@EventHandler\npublic void onBlockBreak(BlockBreakEvent event) {\n    Block block = event.getBlock();\n    if (block.getType() == Material.DIAMOND_BLOCK) {\n        event.setDropItems(false);\n        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.EMERALD, 2));\n    }\n}\n```\n\n## Logic\n- Detect block type\n- Cancel or modify drops\n- Spawn custom items\n\n## Edge Cases\n- Event may be cancelled by other plugins\n- Too many drops → lag",
+        "quiz": [
+          {
+            "id": "q11",
+            "question": "Event when block is broken?",
+            "options": ["BlockDamageEvent", "BlockBreakEvent", "BlockHitEvent", "BlockDestroyEvent"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q12",
+            "question": "Method to check block type?",
+            "options": ["getMaterial()", "getType()", "checkType()", "blockType()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "advanced-itemstacks",
+        "title": "Advanced ItemStack Techniques",
+        "order": 7,
+        "content": "# Advanced Techniques\n\n## Cloning Items\n```java\nItemStack original = new ItemStack(Material.DIAMOND_SWORD);\nItemStack clone = original.clone();\n```\n\n## Checking Item Type\n```java\nif (item.getType() == Material.DIAMOND_SWORD) {}\n```\n\n## Modifying Amount\n```java\nitem.setAmount(10);\n```\n\n## Logic\n- clone() → copies ItemStack\n- getType() → check item\n- setAmount() → change stack size\n\n## Edge Cases\n- Modifying immutable ItemStacks may cause unexpected behavior",
+        "quiz": [
+          {
+            "id": "q13",
+            "question": "Method to copy ItemStack?",
+            "options": ["copy()", "clone()", "duplicate()", "new ItemStack()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "q14",
+            "question": "Check item type?",
+            "options": ["getType()", "getMaterial()", "checkType()", "type()"],
+            "correctIndex": 0
+          },
+          {
+            "id": "q15",
+            "question": "Change stack size?",
+            "options": ["setAmount()", "setSize()", "setStack()", "amount()"],
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
