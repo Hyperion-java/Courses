@@ -11,18 +11,18 @@
         "id": "lesson-basic-fireworks",
         "title": "Creating Basic Fireworks",
         "order": 1,
-        "content": "## Introduction\nFireworks are visual effects that can be spawned using the Bukkit API. They can have colors, shapes, and flicker effects.\n\n### Example: Launch a Basic Firework\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\nFireworkMeta meta = firework.getFireworkMeta();\nmeta.addEffect(FireworkEffect.builder().withColor(Color.RED).with(FireworkEffect.Type.BALL).build());\nmeta.setPower(1);\nfirework.setFireworkMeta(meta);\n```\n\n### Logic Explanation\n- `spawn(Location, Firework.class)` creates a firework entity.\n- `FireworkMeta` allows customization (color, type, flicker, trail).\n- `setPower(int)` controls flight duration.\n\n### Edge Cases & Warnings\n- High numbers of fireworks may cause client lag.\n- Ensure color and type combinations are valid.\n- Fireworks can damage nearby entities if setPower > 1.",
+        "content": "# 🎆 Creating Basic Fireworks (FULL BREAKDOWN)\n\n## 📍 WHERE DOES THIS CODE GO?\nThis code can go in:\n- A **Command Class** (e.g. /firework)\n- An **Event Listener** (e.g. when player joins)\n- Your **Main Class** (for testing only)\n\n👉 BEST PRACTICE: Put this inside a command or event.\n\n---\n\n## 🧠 WHAT ARE FIREWORKS?\nFireworks are **entities** in Minecraft.\nThat means:\n- They exist in the world\n- They can move\n- They can explode\n\n---\n\n## ✅ FULL CODE\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\n\nFireworkMeta meta = firework.getFireworkMeta();\n\nmeta.addEffect(\n    FireworkEffect.builder()\n        .withColor(Color.RED)\n        .with(FireworkEffect.Type.BALL)\n        .build()\n);\n\nmeta.setPower(1);\n\nfirework.setFireworkMeta(meta);\n```\n\n---\n\n## 🔍 LINE-BY-LINE EXPLANATION\n\n### 1️⃣ Spawn the firework\n```java\nplayer.getWorld().spawn(player.getLocation(), Firework.class);\n```\n\n- `player.getWorld()` → gets the world the player is in\n- `.spawn(...)` → creates an entity\n- `player.getLocation()` → WHERE it spawns\n- `Firework.class` → WHAT to spawn\n\n👉 This returns a Firework object → we store it\n\n---\n\n### 2️⃣ Get FireworkMeta\n```java\nFireworkMeta meta = firework.getFireworkMeta();\n```\n\n- Firework itself = entity\n- Meta = **custom data/settings**\n\n👉 Think of it like:\nFirework = body\nMeta = design\n\n---\n\n### 3️⃣ Build the effect\n```java\nFireworkEffect.builder()\n```\n\nThis is a **builder pattern**:\n- You \"build\" the effect step by step\n\n#### Add color\n```java\n.withColor(Color.RED)\n```\n- Sets explosion color\n\n#### Set shape\n```java\n.with(FireworkEffect.Type.BALL)\n```\n- BALL = small explosion\n\n#### Finalize\n```java\n.build()\n```\n- Converts builder → actual effect\n\n---\n\n### 4️⃣ Apply effect\n```java\nmeta.addEffect(...);\n```\n\n- Adds the explosion to the firework\n\n---\n\n### 5️⃣ Set power\n```java\nmeta.setPower(1);\n```\n\n- Controls flight time\n\n| Power | Result |\n|------|--------|\n| 0 | Instant explode |\n| 1 | Short flight |\n| 2+ | Higher flight |\n\n---\n\n### 6️⃣ APPLY META (VERY IMPORTANT)\n```java\nfirework.setFireworkMeta(meta);\n```\n\n❗ If you forget this → NOTHING CHANGES\n\n---\n\n## ⚠️ COMMON MISTAKES\n\n❌ Forgetting setFireworkMeta → no effect\n❌ Spawning too many → lag\n❌ Using null player → crash\n\n---\n\n## 🧪 TESTING\n\n1. Join server\n2. Run command or trigger event\n3. Watch firework spawn\n\nIf nothing happens:\n- Check console\n- Check if code runs\n\n---\n\n## 🧠 DEV THINKING\n\n\"Spawn → Modify → Apply\"\n\nThat pattern is used EVERYWHERE in Bukkit\n",
         "quiz": [
           {
             "id": "quiz-fireworks-01",
-            "question": "Which method sets the properties of a firework?",
-            "options": ["firework.setProperties()", "firework.setFireworkMeta()", "firework.configure()", "firework.setMetaData()"],
+            "question": "What MUST you call after editing FireworkMeta?",
+            "options": ["applyMeta()", "setFireworkMeta()", "update()", "build()"],
             "correctIndex": 1
           },
           {
             "id": "quiz-fireworks-02",
-            "question": "What does the power parameter affect?",
-            "options": ["Color intensity", "Flight duration", "Explosion size", "Sound volume"],
+            "question": "What does setPower control?",
+            "options": ["Explosion color", "Flight duration", "Damage", "Sound"],
             "correctIndex": 1
           }
         ]
@@ -31,24 +31,18 @@
         "id": "lesson-advanced-fireworks",
         "title": "Advanced Firework Effects",
         "order": 2,
-        "content": "## Introduction\nYou can create multi-colored fireworks, add trails, flicker effects, and different explosion types.\n\n### Example: Multi-color Firework with Trail\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\nFireworkMeta meta = firework.getFireworkMeta();\nFireworkEffect effect = FireworkEffect.builder()\n    .withColor(Color.RED)\n    .withColor(Color.BLUE)\n    .with(FireworkEffect.Type.STAR)\n    .withFlicker()\n    .withTrail()\n    .build();\nmeta.addEffect(effect);\nmeta.setPower(2);\nfirework.setFireworkMeta(meta);\n```\n\n### Logic Explanation\n- Multiple colors can be chained with `withColor()`.\n- `withFlicker()` adds a flicker effect.\n- `withTrail()` adds a trailing particle effect.\n- Different `Type` values create different explosion shapes.\n\n### Edge Cases & Warnings\n- Too many effects can cause client FPS drops.\n- Fireworks with `power > 3` can travel very high, be careful in small worlds.\n- Always test colors on dark/light backgrounds for visibility.",
+        "content": "# 🚀 Advanced Fireworks (DEEP DIVE)\n\n## 📍 WHERE DOES THIS GO?\nSame as before:\n- Command\n- Event\n- Ability system\n\n---\n\n## ✅ FULL CODE\n```java\nFirework firework = player.getWorld().spawn(player.getLocation(), Firework.class);\nFireworkMeta meta = firework.getFireworkMeta();\n\nFireworkEffect effect = FireworkEffect.builder()\n    .withColor(Color.RED)\n    .withColor(Color.BLUE)\n    .with(FireworkEffect.Type.STAR)\n    .withFlicker()\n    .withTrail()\n    .build();\n\nmeta.addEffect(effect);\nmeta.setPower(2);\n\nfirework.setFireworkMeta(meta);\n```\n\n---\n\n## 🔍 BREAKDOWN\n\n### Multiple colors\n```java\n.withColor(Color.RED)\n.withColor(Color.BLUE)\n```\n\n- Adds multiple colors\n- Firework blends them\n\n---\n\n### Shape\n```java\n.with(FireworkEffect.Type.STAR)\n```\n\nShapes:\n- BALL\n- STAR ⭐\n- BURST 💥\n- CREEPER 😈\n\n---\n\n### Flicker\n```java\n.withFlicker()\n```\n\n- Makes sparkle effect\n\n---\n\n### Trail\n```java\n.withTrail()\n```\n\n- Leaves particles behind while flying\n\n---\n\n## ⚠️ PERFORMANCE WARNING\n\nToo many effects =\n- FPS drops\n- Client lag\n\n👉 Especially important in:\n- SMP servers\n- Events\n\n---\n\n## 🧠 DEV THINKING\n\n\"More visuals = more lag\"\n\nAlways balance:\n- Looks 🔥\n- Performance ⚡\n\n---\n\n## 🔥 PRO TIP\n\nUse fireworks for:\n- Abilities\n- Boss kills\n- Crates\n- Join effects\n",
         "quiz": [
           {
             "id": "quiz-fireworks-03",
-            "question": "Which method adds flicker to a firework effect?",
-            "options": ["effect.addFlicker()", "withFlicker()", "meta.setFlicker()", "firework.flicker()"],
+            "question": "What adds sparkle effect?",
+            "options": ["withTrail()", "withFlicker()", "withGlow()", "withSparkle()"],
             "correctIndex": 1
           },
           {
             "id": "quiz-fireworks-04",
-            "question": "What does `FireworkEffect.Type.STAR` do?",
-            "options": ["Changes color", "Sets explosion shape to a star", "Increases volume", "Adds a trail"],
-            "correctIndex": 1
-          },
-          {
-            "id": "quiz-fireworks-05",
-            "question": "Why should you avoid too many fireworks at once?",
-            "options": ["Server may crash", "Clients may lag", "Fireworks explode instantly", "It’s illegal in Minecraft"],
+            "question": "Why limit fireworks?",
+            "options": ["Server crash", "Client lag", "They disappear", "No reason"],
             "correctIndex": 1
           }
         ]
@@ -57,19 +51,19 @@
         "id": "lesson-firework-tips",
         "title": "Firework Tips & Best Practices",
         "order": 3,
-        "content": "## Tips\n1. Use fireworks for celebrations or events.\n2. Test different shapes (BALL, STAR, BURST, CREEPER, BALL_LARGE).\n3. Combine multiple colors for visual appeal.\n4. Use `setPower()` wisely; too high can damage entities.\n5. Avoid excessive fireworks in crowded areas to reduce lag.\n\n### Example: Scheduled Firework Show\n```java\nBukkit.getScheduler().runTaskTimer(plugin, () -> {\n    Firework f = player.getWorld().spawn(player.getLocation(), Firework.class);\n    FireworkMeta meta = f.getFireworkMeta();\n    meta.addEffect(FireworkEffect.builder().withColor(Color.GREEN).with(FireworkEffect.Type.BALL).build());\n    meta.setPower(1);\n    f.setFireworkMeta(meta);\n}, 0L, 20L); // launch every second\n```",
+        "content": "# 🧠 REAL DEV TIPS (IMPORTANT)\n\n## 📍 WHERE THIS APPLIES\nEverywhere in your plugin.\n\n---\n\n## ⚙️ SCHEDULING FIREWORKS\n\n```java\nBukkit.getScheduler().runTaskTimer(plugin, () -> {\n    Firework f = player.getWorld().spawn(player.getLocation(), Firework.class);\n\n    FireworkMeta meta = f.getFireworkMeta();\n    meta.addEffect(\n        FireworkEffect.builder()\n            .withColor(Color.GREEN)\n            .with(FireworkEffect.Type.BALL)\n            .build()\n    );\n\n    meta.setPower(1);\n    f.setFireworkMeta(meta);\n\n}, 0L, 20L);\n```\n\n---\n\n## 🔍 WHAT IS THIS?\n\n### Scheduler\n```java\nrunTaskTimer(plugin, task, delay, period)\n```\n\n- delay = when it starts\n- period = how often\n\n👉 20 ticks = 1 second\n\n---\n\n## ⚠️ BIG WARNING\n\nThis runs FOREVER unless stopped.\n\n👉 You should:\n- Cancel task\n- Limit duration\n\n---\n\n## 💡 BEST PRACTICES\n\n✔ Use fireworks for EVENTS\n✔ Keep amount LOW\n✔ Test on server\n✔ Combine with sounds\n\n---\n\n## ❌ BAD PRACTICES\n\n❌ Spamming 100 fireworks\n❌ Running every tick (1L)\n❌ Not cancelling tasks\n\n---\n\n## 🧠 DEV MINDSET\n\n\"Just because you CAN spawn 1000 fireworks doesn't mean you SHOULD\"\n",
         "quiz": [
           {
             "id": "quiz-fireworks-06",
-            "question": "Which firework type is suitable for a Creeper-shaped explosion?",
-            "options": ["BALL", "CREEPER", "STAR", "BURST"],
+            "question": "20 ticks equals?",
+            "options": ["0.5s", "1s", "2s", "5s"],
             "correctIndex": 1
           },
           {
             "id": "quiz-fireworks-07",
-            "question": "Why schedule fireworks instead of spawning all at once?",
-            "options": ["To look sequential and reduce lag", "It increases explosion power", "It changes colors automatically", "There’s no difference"],
-            "correctIndex": 0
+            "question": "Biggest scheduler mistake?",
+            "options": ["Too slow", "Never stopping", "Wrong color", "Wrong type"],
+            "correctIndex": 1
           }
         ]
       }
