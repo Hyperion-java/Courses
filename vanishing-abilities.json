@@ -1,0 +1,92 @@
+[
+  {
+    "id": "vanishing-abilities",
+    "title": "Vanishing & Invisibility Abilities",
+    "description": "Learn how to create vanishing abilities for players, including invisibility effects, stealth mechanics, and action feedback using Java and PaperMC.",
+    "icon": "👻",
+    "order": 1,
+    "createdAt": "2025-01-05T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "vanish-intro",
+        "title": "Introduction to Vanishing",
+        "order": 0,
+        "content": "## Overview\nVanishing abilities allow players to become invisible, sneak past mobs, or surprise other players.\n\n### Basic Invisibility\nPaperMC provides the `PotionEffect` API to apply invisibility.\n\n```java\nimport org.bukkit.entity.Player;\nimport org.bukkit.potion.PotionEffect;\nimport org.bukkit.potion.PotionEffectType;\n\npublic void vanishPlayer(Player player, int durationSeconds) {\n    player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, durationSeconds * 20, 1));\n    player.sendMessage(\"§aYou have vanished!\");\n}\n```\n\n### Applying the Ability\n```java\nif (command.getName().equalsIgnoreCase(\"vanish\")) {\n    vanishPlayer(player, 30); // 30 seconds invisibility\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-vanish-01",
+            "question": "Which PotionEffectType makes a player invisible?",
+            "options": ["PotionEffectType.SPEED", "PotionEffectType.INVISIBILITY", "PotionEffectType.NIGHT_VISION", "PotionEffectType.LEVITATION"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-vanish-02",
+            "question": "How do you calculate ticks from seconds for PotionEffect?",
+            "options": ["seconds * 10", "seconds / 20", "seconds * 20", "seconds + 20"],
+            "correctIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "vanish-stealth-mechanics",
+        "title": "Stealth Mechanics & Player Detection",
+        "order": 1,
+        "content": "## Overview\nInvisibility alone isn't enough for advanced abilities. You may want to hide players from the server list, tab, or prevent mob targeting.\n\n### Hiding from Other Players\n```java\nfor (Player other : Bukkit.getOnlinePlayers()) {\n    other.hidePlayer(plugin, player);\n}\n```\n\n### Showing Players Again\n```java\nfor (Player other : Bukkit.getOnlinePlayers()) {\n    other.showPlayer(plugin, player);\n}\n```\n\n### Preventing Mob Targeting\n```java\n@EventHandler\npublic void onTarget(EntityTargetLivingEntityEvent event) {\n    if (event.getTarget() instanceof Player player && player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {\n        event.setCancelled(true);\n    }\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-stealth-01",
+            "question": "Which method hides a player from others on the server?",
+            "options": ["player.setInvisible(true)", "other.hidePlayer(plugin, player)", "player.addPotionEffect(INVISIBILITY)", "player.teleport()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-stealth-02",
+            "question": "How do you prevent mobs from targeting invisible players?",
+            "options": ["Cancel EntityTargetLivingEntityEvent", "Use hidePlayer()", "Apply Levitation effect", "Use teleportation"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "vanish-effects-and-feedback",
+        "title": "Effects, Particles & Action Feedback",
+        "order": 2,
+        "content": "## Overview\nPlayers should get visual or auditory feedback when vanishing.\n\n### Particle Trail\n```java\nimport org.bukkit.Particle;\nimport org.bukkit.scheduler.BukkitRunnable;\n\nnew BukkitRunnable() {\n    @Override\n    public void run() {\n        player.getWorld().spawnParticle(Particle.SMOKE_LARGE, player.getLocation(), 5);\n    }\n}.runTaskTimer(plugin, 0, 5);\n```\n\n### Sound Effect\n```java\nplayer.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1f);\n```\n\n### Action Bar Message\n```java\nplayer.sendActionBar(Component.text(\"You are now invisible!\", TextColor.color(0x00FF00)));\n```",
+        "quiz": [
+          {
+            "id": "quiz-effects-01",
+            "question": "Which Particle type is used for a smoke trail?",
+            "options": ["Particle.FLAME", "Particle.SMOKE_LARGE", "Particle.HEART", "Particle.EXPLOSION_HUGE"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-effects-02",
+            "question": "Which method sends an action bar message to the player?",
+            "options": ["player.sendMessage()", "player.sendActionBar()", "player.playSound()", "player.addPotionEffect()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "vanish-cooldowns-and-toggle",
+        "title": "Cooldowns & Toggleable Vanish",
+        "order": 3,
+        "content": "## Overview\nTo prevent abuse, vanishing abilities should have cooldowns and toggle functionality.\n\n### Cooldown Example\n```java\nimport java.util.HashMap;\nimport java.util.UUID;\n\nHashMap<UUID, Long> vanishCooldown = new HashMap<>();\n\npublic boolean canVanish(Player player, int cooldownSeconds) {\n    UUID id = player.getUniqueId();\n    if (vanishCooldown.containsKey(id)) {\n        long remaining = (vanishCooldown.get(id) - System.currentTimeMillis()) / 1000;\n        if (remaining > 0) {\n            player.sendMessage(\"§cVanish on cooldown: \" + remaining + \"s\");\n            return false;\n        }\n    }\n    vanishCooldown.put(id, System.currentTimeMillis() + (cooldownSeconds * 1000));\n    return true;\n}\n```\n\n### Toggle Vanish Command\n```java\nif (canVanish(player, 60)) { // 60s cooldown\n    if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {\n        player.removePotionEffect(PotionEffectType.INVISIBILITY);\n        for (Player other : Bukkit.getOnlinePlayers()) {\n            other.showPlayer(plugin, player);\n        }\n        player.sendMessage(\"§cYou are now visible!\");\n    } else {\n        vanishPlayer(player, 120); // 2 minutes vanish\n        for (Player other : Bukkit.getOnlinePlayers()) {\n            other.hidePlayer(plugin, player);\n        }\n    }\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-cooldown-01",
+            "question": "How do you prevent a player from using vanish repeatedly?",
+            "options": ["Teleport them away", "Use a HashMap cooldown system", "Apply Levitation effect", "Force them offline"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-cooldown-02",
+            "question": "How do you toggle visibility back to normal?",
+            "options": ["player.setInvisible(false)", "player.removePotionEffect(INVISIBILITY) and showPlayer()", "player.teleport()", "player.kickPlayer()"],
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
