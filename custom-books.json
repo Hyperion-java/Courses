@@ -1,0 +1,92 @@
+[
+  {
+    "id": "custom-books",
+    "title": "Custom Books & Written Content",
+    "description": "Learn how to create custom writable and readable books in Minecraft using PaperMC, including titles, pages, lore, and interactive features.",
+    "icon": "📖",
+    "order": 2,
+    "createdAt": "2025-01-10T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "custom-books-intro",
+        "title": "Introduction to Custom Books",
+        "order": 0,
+        "content": "## Overview\nMinecraft allows players to use written books (`WrittenBook`) and writable books (`BookMeta`). This lesson covers how to create and give a simple custom book.\n\n### Creating a Simple Book\n```java\nimport org.bukkit.Material;\nimport org.bukkit.entity.Player;\nimport org.bukkit.inventory.ItemStack;\nimport org.bukkit.inventory.meta.BookMeta;\n\npublic void giveCustomBook(Player player) {\n    ItemStack book = new ItemStack(Material.WRITTEN_BOOK);\n    BookMeta meta = (BookMeta) book.getItemMeta();\n    meta.setTitle(\"Secrets of the Realm\");\n    meta.setAuthor(\"DungeonMaster\");\n    meta.addPage(\"Welcome to the secret realm!\", \"Use this knowledge wisely.\");\n    book.setItemMeta(meta);\n    player.getInventory().addItem(book);\n}\n```\n\n### Giving the Book to a Player via Command\n```java\nif (command.getName().equalsIgnoreCase(\"givebook\")) {\n    giveCustomBook(player);\n    player.sendMessage(\"§aYou received a custom book!\");\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-book-01",
+            "question": "Which class represents a book's metadata in Bukkit/PaperMC?",
+            "options": ["ItemStack", "BookMeta", "WrittenBook", "BookItem"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-book-02",
+            "question": "How do you add a page to a book?",
+            "options": ["meta.setPage()", "meta.addPage()", "book.addPage()", "player.sendMessage()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "custom-books-lore-and-style",
+        "title": "Adding Lore, Colors, and Formatting",
+        "order": 1,
+        "content": "## Overview\nBooks can contain formatted text, colors, and lore to make them more engaging.\n\n### Colored Text Example\n```java\nimport net.kyori.adventure.text.Component;\nimport net.kyori.adventure.text.format.TextColor;\n\nmeta.addPage(\n    Component.text(\"§6Chapter 1: Secrets\", TextColor.color(0xFFD700)),\n    Component.text(\"§7This book contains hidden knowledge.\")\n);\n```\n\n### Adding Lore\n```java\nmeta.lore(Arrays.asList(\n    Component.text(\"Legendary Book\"),\n    Component.text(\"Read carefully\")\n));\nbook.setItemMeta(meta);\n```",
+        "quiz": [
+          {
+            "id": "quiz-book-03",
+            "question": "Which library allows colored and formatted text in books?",
+            "options": ["Bukkit API only", "Adventure API", "Spigot Core", "PaperLib"], 
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-book-04",
+            "question": "How do you add lore to a book?",
+            "options": ["meta.setLore()", "meta.addPage()", "player.sendMessage()", "book.addLore()"], 
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "custom-books-click-events",
+        "title": "Clickable Text & Interactive Books",
+        "order": 2,
+        "content": "## Overview\nUsing Adventure API, you can make clickable text in books that execute commands or suggest text.\n\n### Clickable Text Example\n```java\nimport net.kyori.adventure.text.Component;\nimport net.kyori.adventure.text.event.ClickEvent;\n\nComponent page = Component.text(\"Click here to teleport\")\n    .clickEvent(ClickEvent.runCommand(\"/warp secret\"));\nmeta.addPage(page);\nbook.setItemMeta(meta);\n```",
+        "quiz": [
+          {
+            "id": "quiz-book-05",
+            "question": "Which ClickEvent action runs a command when clicked?",
+            "options": ["ClickEvent.openUrl()", "ClickEvent.runCommand()", "ClickEvent.suggestCommand()", "ClickEvent.copyToClipboard()"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-book-06",
+            "question": "Can books contain multiple pages with different clickable actions?",
+            "options": ["Yes", "No", "Only one page allowed", "Only title can be clickable"],
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "custom-books-advanced",
+        "title": "Advanced Custom Books",
+        "order": 3,
+        "content": "## Overview\nYou can combine multiple features: colors, clickable text, lore, and give the books dynamically.\n\n### Full Example\n```java\nItemStack book = new ItemStack(Material.WRITTEN_BOOK);\nBookMeta meta = (BookMeta) book.getItemMeta();\nmeta.setTitle(\"Adventurer's Guide\");\nmeta.setAuthor(\"QuestMaster\");\nmeta.lore(Arrays.asList(\n    Component.text(\"Epic Book\"),\n    Component.text(\"Contains secrets and quests\")\n));\nmeta.addPage(\n    Component.text(\"Chapter 1: The Beginning\\nClick here to teleport\")\n        .clickEvent(ClickEvent.runCommand(\"/warp start\"))\n        .color(TextColor.color(0x00FF00))\n);\nbook.setItemMeta(meta);\nplayer.getInventory().addItem(book);\nplayer.sendMessage(\"§aYou received the Adventurer's Guide!\");\n```",
+        "quiz": [
+          {
+            "id": "quiz-book-07",
+            "question": "Which method allows combining multiple advanced features in a book?",
+            "options": ["meta.addPage()", "meta.setTitle()", "meta.setItemMeta()", "All of the above"],
+            "correctIndex": 3
+          },
+          {
+            "id": "quiz-book-08",
+            "question": "Can you add clickable text and colored text on the same page?",
+            "options": ["Yes", "No"], 
+            "correctIndex": 0
+          }
+        ]
+      }
+    ]
+  }
+]
