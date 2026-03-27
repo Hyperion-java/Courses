@@ -11,18 +11,18 @@
         "id": "lesson-action-bar",
         "title": "Action Bar Messages",
         "order": 1,
-        "content": "## Introduction\nAction bars are short messages that appear above the player's hotbar for a few seconds.\n\n### Example: Send an Action Bar Message\n```java\nplayer.sendActionBar(Component.text(\"§aYou received a buff!\"));\n```\n\n### Logic Explanation\n- `sendActionBar` displays temporary messages.\n- `Component.text()` allows color codes and formatting.\n\n### Edge Cases & Warnings\n- Messages are short-lived (3-5 seconds).\n- Frequent updates can cause flickering.\n- Only visible to the player receiving it.",
+        "content": "# 💬 Action Bars (FULL BREAKDOWN)\n\n## 📍 WHERE DOES THIS CODE GO?\nYou can use action bars in:\n- Commands (e.g. /buff)\n- Events (e.g. when player takes damage)\n- Ability systems (VERY common)\n\n👉 BEST PRACTICE: Use in events or abilities for real-time feedback.\n\n---\n\n## 🧠 WHAT IS AN ACTION BAR?\nAn action bar is a **temporary message** that appears:\n👉 Above the hotbar (bottom of screen)\n\nUsed for:\n- Cooldowns\n- Status effects\n- Notifications\n\n---\n\n## ✅ FULL CODE\n```java\nplayer.sendActionBar(Component.text(\"§aYou received a buff!\"));\n```\n\n---\n\n## 🔍 LINE-BY-LINE EXPLANATION\n\n### 1️⃣ player\n- This is the Player object\n- Represents who receives the message\n\n---\n\n### 2️⃣ sendActionBar(...)\n```java\nplayer.sendActionBar(...);\n```\n\n- Sends a message to the action bar\n- ONLY that player sees it\n\n---\n\n### 3️⃣ Component.text()\n```java\nComponent.text(\"§aYou received a buff!\")\n```\n\n- This is from the **Adventure API**\n- Used instead of old String messages\n\n#### Why not just use String?\nBecause Components allow:\n- Colors\n- Formatting\n- Advanced text\n\n---\n\n### 4️⃣ \"§a\"\n- This is a **color code**\n- §a = green\n\n---\n\n## ⚠️ IMPORTANT BEHAVIOUR\n\nAction bars:\n- Last ~2–5 seconds\n- Get overwritten by new ones\n\n👉 If you send multiple quickly → flickering\n\n---\n\n## ❌ COMMON MISTAKES\n\n❌ Spamming every tick (20 times/sec)\n❌ Using null player\n❌ Forgetting Component.text()\n\n---\n\n## 🧪 TESTING\n\n1. Join server\n2. Trigger your command/event\n3. Look above hotbar\n\nIf nothing shows:\n- Check player is valid\n- Check code runs\n\n---\n\n## 🧠 DEV THINKING\n\n\"Action bar = quick info, not permanent message\"\n\nUse it for:\n- Live updates\n- Short feedback\n",
         "quiz": [
           {
             "id": "quiz-actionbar-01",
-            "question": "Where does an action bar message appear?",
-            "options": ["Chat box", "Above hotbar", "Title screen", "Tab list"],
+            "question": "Where does an action bar appear?",
+            "options": ["Chat", "Above hotbar", "Top screen", "Tab list"],
             "correctIndex": 1
           },
           {
             "id": "quiz-actionbar-02",
-            "question": "Which class is used to format colored text?",
-            "options": ["ChatColor", "Component", "TextBuilder", "MessageFormatter"],
+            "question": "What formats the message?",
+            "options": ["String", "Component", "Player", "ChatColor"],
             "correctIndex": 1
           }
         ]
@@ -31,19 +31,19 @@
         "id": "lesson-titles",
         "title": "Titles and Subtitles",
         "order": 2,
-        "content": "## Introduction\nTitles are large messages displayed in the center of the screen, often with subtitles.\n\n### Example: Send Title and Subtitle\n```java\nplayer.showTitle(Title.title(\n    Component.text(\"§6Welcome!\"),\n    Component.text(\"§eEnjoy your adventure\"),\n    Title.Times.of(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))\n));\n```\n\n### Logic Explanation\n- `Title.title(main, subtitle, times)` sends both main title and subtitle.\n- `Title.Times.of(fadeIn, stay, fadeOut)` controls animation duration.\n\n### Edge Cases & Warnings\n- Use short messages for clarity.\n- Overusing titles can annoy players.\n- Titles override previous titles until faded out.",
+        "content": "# 🏆 Titles & Subtitles (FULL BREAKDOWN)\n\n## 📍 WHERE DOES THIS GO?\nBest used in:\n- PlayerJoinEvent\n- Boss fights\n- Level ups\n- Important alerts\n\n👉 NOT for spam — these are BIG messages.\n\n---\n\n## 🧠 WHAT ARE TITLES?\nTitles are:\n- Big text in center of screen\n- Optional subtitle below\n\n---\n\n## ✅ FULL CODE\n```java\nplayer.showTitle(Title.title(\n    Component.text(\"§6Welcome!\"),\n    Component.text(\"§eEnjoy your adventure\"),\n    Title.Times.of(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))\n));\n```\n\n---\n\n## 🔍 BREAKDOWN\n\n### 1️⃣ player.showTitle(...)\n- Sends title to player\n\n---\n\n### 2️⃣ Title.title(...)\nThis builds the title object\n\n```java\nTitle.title(main, subtitle, times)\n```\n\n---\n\n### 3️⃣ Main Title\n```java\nComponent.text(\"§6Welcome!\")\n```\n\n- Big bold text\n\n---\n\n### 4️⃣ Subtitle\n```java\nComponent.text(\"§eEnjoy your adventure\")\n```\n\n- Smaller text under main\n\n---\n\n### 5️⃣ Timing\n```java\nTitle.Times.of(fadeIn, stay, fadeOut)\n```\n\nExample:\n- fadeIn = 1 second\n- stay = 3 seconds\n- fadeOut = 1 second\n\n---\n\n## ⚠️ IMPORTANT RULES\n\n- Titles OVERRIDE previous titles\n- Too many = annoying\n\n---\n\n## ❌ COMMON MISTAKES\n\n❌ Using long sentences\n❌ Spamming titles\n❌ Forgetting timing (defaults feel weird)\n\n---\n\n## 🧪 TESTING\n\n1. Join server or trigger event\n2. Watch screen center\n\n---\n\n## 🧠 DEV THINKING\n\n\"Titles = IMPORTANT moments\"\n\nUse for:\n- Boss spawn\n- Game start\n- Victory\n",
         "quiz": [
           {
             "id": "quiz-title-01",
-            "question": "Which method sends a title to a player?",
-            "options": ["player.sendTitle()", "player.showTitle()", "player.displayTitle()", "player.title()"],
+            "question": "Where does a title appear?",
+            "options": ["Chat", "Center screen", "Hotbar", "Tab"],
             "correctIndex": 1
           },
           {
             "id": "quiz-title-02",
-            "question": "Which duration is for the message to stay visible?",
-            "options": ["fadeIn", "fadeOut", "stay", "delay"],
-            "correctIndex": 2
+            "question": "Which controls duration?",
+            "options": ["Component", "Times", "Player", "Message"],
+            "correctIndex": 1
           }
         ]
       },
@@ -51,25 +51,19 @@
         "id": "lesson-tablist",
         "title": "Customizing Player Tab List",
         "order": 3,
-        "content": "## Introduction\nThe tab list shows all online players; you can customize header, footer, and even individual names.\n\n### Example: Set Tab Header and Footer\n```java\nplayer.sendPlayerListHeaderAndFooter(\n    Component.text(\"§6Welcome to the Server\"),\n    Component.text(\"§eHave fun!\"));\n```\n\n### Logic Explanation\n- `sendPlayerListHeaderAndFooter(header, footer)` updates the tab list.\n- Components allow colors, formatting, and line breaks.\n- You can update periodically for dynamic effects.\n\n### Edge Cases & Warnings\n- Keep messages short; long headers can look bad.\n- Avoid frequent updates to prevent packet spam.\n- Different Minecraft versions may handle line breaks differently.",
+        "content": "# 📋 Tab List (FULL BREAKDOWN)\n\n## 📍 WHERE DOES THIS GO?\nUsually in:\n- PlayerJoinEvent (set when player joins)\n- Scheduler (for live updates)\n\n---\n\n## 🧠 WHAT IS TAB LIST?\nWhen you press TAB:\n- You see players\n- You can add header/footer\n\n---\n\n## ✅ FULL CODE\n```java\nplayer.sendPlayerListHeaderAndFooter(\n    Component.text(\"§6Welcome to the Server\"),\n    Component.text(\"§eHave fun!\")\n);\n```\n\n---\n\n## 🔍 BREAKDOWN\n\n### Method\n```java\nsendPlayerListHeaderAndFooter(header, footer)\n```\n\n- header = top text\n- footer = bottom text\n\n---\n\n### Components\nSame as before:\n```java\nComponent.text(...)\n```\n\n---\n\n## 🎨 MULTILINE TIP\n\nYou can do:\n```java\nComponent.text(\"Line1\\nLine2\")\n```\n\n---\n\n## ⚠️ PERFORMANCE WARNING\n\nUpdating too often =\n- Packet spam\n- Flickering\n\n👉 Update every few seconds MAX\n\n---\n\n## ❌ COMMON MISTAKES\n\n❌ Updating every tick\n❌ Long text (looks bad)\n❌ Not setting on join\n\n---\n\n## 🧪 TESTING\n\n1. Join server\n2. Press TAB\n3. Look at header/footer\n\n---\n\n## 🧠 DEV THINKING\n\n\"Tab list = server info panel\"\n\nUse for:\n- Server name\n- Player stats\n- Events\n",
         "quiz": [
           {
             "id": "quiz-tablist-01",
-            "question": "Which method updates the tab list header and footer?",
-            "options": ["player.updateTabList()", "player.setTabHeaderFooter()", "player.sendPlayerListHeaderAndFooter()", "player.tabList()"],
-            "correctIndex": 2
-          },
-          {
-            "id": "quiz-tablist-02",
-            "question": "Why avoid frequent updates to tab list?",
-            "options": ["It causes server crashes", "Packet spam and flickering", "Players cannot see updates", "No reason"],
+            "question": "What does this method modify?",
+            "options": ["Chat", "Tab list", "Scoreboard", "Boss bar"],
             "correctIndex": 1
           },
           {
-            "id": "quiz-tablist-03",
-            "question": "Can tab list messages include colors?",
-            "options": ["Yes, using Components", "No, only plain text", "Yes, but only for footer", "Yes, but only for header"],
-            "correctIndex": 0
+            "id": "quiz-tablist-02",
+            "question": "Why avoid frequent updates?",
+            "options": ["Crash", "Lag & flicker", "Deletes players", "No reason"],
+            "correctIndex": 1
           }
         ]
       }
