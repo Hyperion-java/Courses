@@ -2,26 +2,26 @@
   {
     "id": "module-bossbar",
     "title": "Boss Bars (1.9+)",
-    "description": "Learn how to create and manage boss bars for displaying health, progress, or custom messages to players.",
+    "description": "A complete deep-dive into boss bars including creation, lifecycle management, schedulers, memory safety, and real-world usage.",
     "icon": "🎯",
     "order": 9,
     "createdAt": "2026-03-27T00:10:00.000Z",
     "lessons": [
       {
         "id": "lesson-basic-bossbar",
-        "title": "Creating a Basic Boss Bar",
+        "title": "Creating a Boss Bar (FULL GUIDE)",
         "order": 1,
-        "content": "## Introduction\nBoss bars are progress bars displayed at the top of the screen. They can show health, timers, or custom messages.\n\n### Example: Create and Display Boss Bar\n```java\nBossBar bar = Bukkit.createBossBar(\"§6Defeat the Dragon!\", BarColor.RED, BarStyle.SOLID);\nbar.addPlayer(player);\nbar.setProgress(1.0); // Full bar\n```\n\n### Logic Explanation\n- `createBossBar(String title, BarColor color, BarStyle style)` creates a new bar.\n- `addPlayer(Player)` shows the bar to a player.\n- `setProgress(double)` controls the fill (0.0 to 1.0).\n\n### Edge Cases & Warnings\n- Boss bars only appear for players added via `addPlayer`.\n- `setProgress` values outside 0.0-1.0 are clamped.\n- Remove players when they leave to avoid memory leaks.",
+        "content": "# Creating a Boss Bar (FULL GUIDE)\n\n## Step 1: WHERE THIS CODE GOES\n\nPut this inside:\n- A command\n- OR an event (like PlayerJoinEvent)\n\nExample: inside onCommand()\n\n---\n\n## Step 2: CODE\n\n```java\nBossBar bar = Bukkit.createBossBar(\"§6Defeat the Dragon!\", BarColor.RED, BarStyle.SOLID);\n\nbar.addPlayer(player);\nbar.setProgress(1.0);\n```\n\n---\n\n## Step 3: FULL BREAKDOWN\n\ncreateBossBar(title, color, style)\n→ creates boss bar object\n\n§6\n→ color code (gold)\n\nBarColor.RED\n→ bar color\n\nBarStyle.SOLID\n→ smooth bar\n\naddPlayer(player)\n→ SHOWS bar (VERY IMPORTANT)\n\nsetProgress(1.0)\n→ full bar (range = 0.0 → 1.0)\n\n---\n\n## Step 4: WHAT HAPPENS IN-GAME\n\nPlayer sees a red boss bar at top of screen\n\n---\n\n## Step 5: HUGE BEGINNER MISTAKE\n\n❌ Forgetting addPlayer()\n→ bar exists but NOT visible\n\n---\n\n## Step 6: LIFECYCLE CONCEPT (IMPORTANT)\n\nBossBar is NOT temporary\n\nYOU must:\n- remove players\n- or reuse it\n\n---\n\n## Mini Challenge\nCreate a blue boss bar with 50% progress\n\n## Recap\nCreate → Add player → Set progress",
         "quiz": [
           {
             "id": "quiz-bossbar-01",
-            "question": "Which method displays the boss bar to a player?",
-            "options": ["bar.show()", "bar.addPlayer()", "bar.setVisible(true)", "bar.display()"],
+            "question": "Which method shows the boss bar?",
+            "options": ["show()", "addPlayer()", "setVisible()", "display()"],
             "correctIndex": 1
           },
           {
             "id": "quiz-bossbar-02",
-            "question": "What is the valid range for boss bar progress?",
+            "question": "Progress range?",
             "options": ["0-100", "0-1", "1-10", "-1 to 1"],
             "correctIndex": 1
           }
@@ -29,47 +29,61 @@
       },
       {
         "id": "lesson-updating-bossbar",
-        "title": "Updating Boss Bar Progress and Title",
+        "title": "Updating Boss Bars (Schedulers Explained)",
         "order": 2,
-        "content": "## Introduction\nBoss bars can dynamically update their progress and title for timers or event tracking.\n\n### Example: Countdown Boss Bar\n```java\nBukkit.getScheduler().runTaskTimer(plugin, new BukkitRunnable() {\n    double progress = 1.0;\n    @Override\n    public void run() {\n        progress -= 0.05;\n        if(progress <= 0) {\n            bar.removePlayer(player);\n            cancel();\n        } else {\n            bar.setProgress(progress);\n            bar.setTitle(\"§cTime remaining: \" + (int)(progress*20) + \"s\");\n        }\n    }\n}, 0L, 20L); // Every second\n```\n\n### Logic Explanation\n- `setProgress()` updates the fill dynamically.\n- `setTitle()` updates the displayed message.\n- Scheduled tasks allow countdowns or live updates.\n\n### Edge Cases & Warnings\n- Avoid updating every tick unnecessarily; use a reasonable interval.\n- Always remove players to prevent invisible bars lingering.\n- Rapid updates may cause client visual glitches.",
+        "content": "# Updating Boss Bars (FULL GUIDE)\n\n## Step 1: WHERE THIS GOES\n\nInside command OR event\n\nRequires plugin instance\n\n---\n\n## Step 2: CODE\n\n```java\nnew BukkitRunnable() {\n    double progress = 1.0;\n\n    @Override\n    public void run() {\n        progress -= 0.05;\n\n        if (progress <= 0) {\n            bar.removePlayer(player);\n            cancel();\n            return;\n        }\n\n        bar.setProgress(progress);\n        bar.setTitle(\"§cTime left: \" + (int)(progress * 20) + \"s\");\n    }\n}.runTaskTimer(plugin, 0L, 20L);\n```\n\n---\n\n## Step 3: FULL BREAKDOWN\n\nBukkitRunnable\n→ repeating task\n\nrun()\n→ runs every interval\n\nrunTaskTimer(plugin, delay, period)\n→ scheduler\n\n0L\n→ start instantly\n\n20L\n→ every 1 second (20 ticks)\n\nprogress -= 0.05\n→ decreases bar\n\ncancel()\n→ STOPS task (IMPORTANT)\n\n---\n\n## Step 4: WHAT HAPPENS\n\nBoss bar slowly decreases like a timer\n\n---\n\n## Step 5: CRITICAL DEV CONCEPT\n\nScheduler = how plugins create time-based systems\n\nUsed for:\n- cooldowns\n- timers\n- animations\n\n---\n\n## Step 6: COMMON MISTAKES\n\n❌ Not cancelling → infinite task (lag)\n❌ Updating every tick → unnecessary lag\n\n---\n\n## Mini Challenge\nMake it last 10 seconds instead\n\n## Recap\nScheduler → update → cancel",
         "quiz": [
           {
             "id": "quiz-bossbar-03",
-            "question": "Which method changes the text displayed on a boss bar?",
-            "options": ["setText()", "setMessage()", "setTitle()", "updateTitle()"],
-            "correctIndex": 2
+            "question": "What stops the task?",
+            "options": ["stop()", "cancel()", "end()", "return"],
+            "correctIndex": 1
           },
           {
             "id": "quiz-bossbar-04",
-            "question": "Why should you remove players from boss bars when done?",
-            "options": ["Prevent memory leaks and lingering bars", "It’s required by API", "Players get kicked", "Bars disappear automatically anyway"],
-            "correctIndex": 0
+            "question": "20 ticks = ?",
+            "options": ["0.5s", "1s", "2s", "5s"],
+            "correctIndex": 1
           }
         ]
       },
       {
         "id": "lesson-bossbar-styles",
-        "title": "Boss Bar Colors & Styles",
+        "title": "Colors, Styles & Visual Design",
         "order": 3,
-        "content": "## Introduction\nBoss bars can have different colors and styles to match events or aesthetics.\n\n### Example: Colored and Segmented Boss Bar\n```java\nBossBar bar = Bukkit.createBossBar(\"§aChallenge\", BarColor.GREEN, BarStyle.SEGMENTED_10);\nbar.addPlayer(player);\nbar.setProgress(0.7);\n```\n\n### Logic Explanation\n- `BarColor` options: RED, GREEN, BLUE, YELLOW, PURPLE, WHITE.\n- `BarStyle` options: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20.\n- Segmented bars show divisions, useful for HP or stages.\n\n### Edge Cases & Warnings\n- Segmented bars may not align with actual progress perfectly; calculate carefully.\n- Colors are visual only; players may not interpret meaning without context.\n- Keep boss bars relevant; too many can clutter the screen.",
+        "content": "# Boss Bar Styles (FULL GUIDE)\n\n## Step 1: CODE\n\n```java\nBossBar bar = Bukkit.createBossBar(\"§aChallenge\", BarColor.GREEN, BarStyle.SEGMENTED_10);\n```\n\n---\n\n## Step 2: FULL BREAKDOWN\n\nBarColor:\n- RED\n- GREEN\n- BLUE\n- YELLOW\n- PURPLE\n- WHITE\n\nBarStyle:\n- SOLID\n- SEGMENTED_6\n- SEGMENTED_10\n- SEGMENTED_12\n- SEGMENTED_20\n\n---\n\n## Step 3: WHAT SEGMENTS MEAN\n\nSEGMENTED_10\n→ bar splits into 10 chunks\n\nUsed for:\n- boss phases\n- health stages\n\n---\n\n## Step 4: DESIGN TIP (IMPORTANT)\n\nGOOD:\n- Red = danger\n- Green = success\n\nBAD:\n- random colors (confusing)\n\n---\n\n## Step 5: COMMON MISTAKE\n\n❌ Too many boss bars\n→ clutters player screen\n\n---\n\n## Mini Challenge\nMake a segmented health bar\n\n## Recap\nColor = meaning\nStyle = visuals",
         "quiz": [
           {
             "id": "quiz-bossbar-05",
-            "question": "Which style shows a solid, continuous bar?",
+            "question": "Solid bar type?",
             "options": ["SEGMENTED_10", "SOLID", "SEGMENTED_6", "SEGMENTED_12"],
             "correctIndex": 1
           },
           {
             "id": "quiz-bossbar-06",
-            "question": "How many segments does SEGMENTED_10 have?",
+            "question": "SEGMENTED_10 has?",
             "options": ["6", "10", "12", "20"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "lesson-bossbar-lifecycle",
+        "title": "Boss Bar Lifecycle (ADVANCED & IMPORTANT)",
+        "order": 4,
+        "content": "# Boss Bar Lifecycle (FULL GUIDE)\n\n## Step 1: WHY THIS MATTERS\n\nBossBars stay in memory\n\nIf you DON'T clean them up → memory leaks\n\n---\n\n## Step 2: REMOVE PLAYER\n\n```java\nbar.removePlayer(player);\n```\n\n---\n\n## Step 3: REMOVE ALL\n\n```java\nbar.removeAll();\n```\n\n---\n\n## Step 4: WHERE TO CLEAN UP\n\nPlayerQuitEvent:\n\n```java\n@EventHandler\npublic void onQuit(PlayerQuitEvent event) {\n    bar.removePlayer(event.getPlayer());\n}\n```\n\n---\n\n## Step 5: WHAT HAPPENS IF YOU DON'T\n\n❌ Ghost boss bars\n❌ Memory leaks\n❌ Weird visual bugs\n\n---\n\n## Step 6: PRO DEV TIP\n\nStore boss bars in a HashMap:\n\n```java\nMap<Player, BossBar> bars = new HashMap<>();\n```\n\nSo you can manage them\n\n---\n\n## Mini Challenge\nStore and remove boss bars per player\n\n## Recap\nCreate → use → REMOVE",
+        "quiz": [
+          {
+            "id": "quiz-bossbar-07",
+            "question": "Remove one player?",
+            "options": ["remove()", "removePlayer()", "delete()", "clear()"],
             "correctIndex": 1
           },
           {
-            "id": "quiz-bossbar-07",
-            "question": "Which BarColor is NOT valid?",
-            "options": ["RED", "GREEN", "ORANGE", "PURPLE"],
-            "correctIndex": 2
+            "id": "quiz-bossbar-08",
+            "question": "Why remove boss bars?",
+            "options": ["Cleaner code", "Prevent memory leaks", "Required syntax", "No reason"],
+            "correctIndex": 1
           }
         ]
       }
