@@ -1,0 +1,92 @@
+[
+  {
+    "id": "custom-banners",
+    "title": "Custom Banners & Patterns",
+    "description": "Learn how to create custom banners with colors, patterns, and designs using Java and PaperMC, and give them to players dynamically.",
+    "icon": "🎨",
+    "order": 3,
+    "createdAt": "2025-01-15T00:00:00.000Z",
+    "lessons": [
+      {
+        "id": "banners-intro",
+        "title": "Introduction to Banners",
+        "order": 0,
+        "content": "## Overview\nBanners in Minecraft are highly customizable. Using `BannerMeta`, you can add colors, patterns, and even custom names.\n\n### Creating a Simple Banner\n```java\nimport org.bukkit.Material;\nimport org.bukkit.entity.Player;\nimport org.bukkit.inventory.ItemStack;\nimport org.bukkit.inventory.meta.BannerMeta;\nimport org.bukkit.DyeColor;\n\npublic void giveSimpleBanner(Player player) {\n    ItemStack banner = new ItemStack(Material.WHITE_BANNER);\n    BannerMeta meta = (BannerMeta) banner.getItemMeta();\n    meta.setDisplayName(\"§aMy First Banner\");\n    banner.setItemMeta(meta);\n    player.getInventory().addItem(banner);\n}\n```\n\n### Giving the Banner via Command\n```java\nif (command.getName().equalsIgnoreCase(\"givebanner\")) {\n    giveSimpleBanner(player);\n    player.sendMessage(\"§aYou received a custom banner!\");\n}\n```",
+        "quiz": [
+          {
+            "id": "quiz-banner-01",
+            "question": "Which class is used to modify banner metadata?",
+            "options": ["ItemStack", "BannerMeta", "Pattern", "DyeColor"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-banner-02",
+            "question": "How do you change the display name of a banner?",
+            "options": ["meta.setTitle()", "meta.setDisplayName()", "banner.setName()", "player.sendMessage()"],
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "banners-patterns",
+        "title": "Adding Colors and Patterns",
+        "order": 1,
+        "content": "## Overview\nBanners support multiple patterns and colors.\n\n### Adding a Pattern\n```java\nimport org.bukkit.block.banner.Pattern;\nimport org.bukkit.block.banner.PatternType;\n\nBannerMeta meta = (BannerMeta) banner.getItemMeta();\nmeta.addPattern(new Pattern(DyeColor.RED, PatternType.STRIPE_TOP));\nmeta.addPattern(new Pattern(DyeColor.BLUE, PatternType.CIRCLE_MIDDLE));\nbanner.setItemMeta(meta);\n```",
+        "quiz": [
+          {
+            "id": "quiz-banner-03",
+            "question": "Which enum represents pattern types on banners?",
+            "options": ["BannerPatternType", "PatternType", "BannerPattern", "PatternStyle"],
+            "correctIndex": 1
+          },
+          {
+            "id": "quiz-banner-04",
+            "question": "How do you add multiple patterns to a banner?",
+            "options": ["Use meta.addPattern() multiple times", "Use meta.setPatternList()", "Use banner.addPattern()", "Only one pattern is allowed"], 
+            "correctIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "banners-advanced",
+        "title": "Advanced Custom Banners",
+        "order": 2,
+        "content": "## Overview\nCombine colors, patterns, and names to make highly customized banners.\n\n### Full Example\n```java\nItemStack banner = new ItemStack(Material.BLACK_BANNER);\nBannerMeta meta = (BannerMeta) banner.getItemMeta();\nmeta.setDisplayName(\"§5Guild Banner\");\nmeta.addPattern(new Pattern(DyeColor.WHITE, PatternType.BORDER));\nmeta.addPattern(new Pattern(DyeColor.RED, PatternType.CREEPER));\nmeta.addPattern(new Pattern(DyeColor.YELLOW, PatternType.RHOMBUS_MIDDLE));\nbanner.setItemMeta(meta);\nplayer.getInventory().addItem(banner);\nplayer.sendMessage(\"§aYou received the Guild Banner!\");\n```",
+        "quiz": [
+          {
+            "id": "quiz-banner-05",
+            "question": "Can a banner have multiple patterns?",
+            "options": ["Yes", "No"], 
+            "correctIndex": 0
+          },
+          {
+            "id": "quiz-banner-06",
+            "question": "Which enum defines banner colors?",
+            "options": ["PatternType", "DyeColor", "BannerColor", "ColorType"], 
+            "correctIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "banners-dynamic-giving",
+        "title": "Dynamically Generating Banners",
+        "order": 3,
+        "content": "## Overview\nYou can generate banners dynamically based on player input or events.\n\n### Example: Banner Based on Player Team Color\n```java\nimport org.bukkit.scoreboard.Team;\nTeam team = player.getScoreboard().getEntryTeam(player.getName());\nDyeColor color = DyeColor.WHITE;\nif (team != null) {\n    switch(team.getName()) {\n        case \"RedTeam\": color = DyeColor.RED; break;\n        case \"BlueTeam\": color = DyeColor.BLUE; break;\n    }\n}\nItemStack banner = new ItemStack(Material.BANNER);\nBannerMeta meta = (BannerMeta) banner.getItemMeta();\nmeta.addPattern(new Pattern(color, PatternType.STRIPE_DOWNRIGHT));\nbanner.setItemMeta(meta);\nplayer.getInventory().addItem(banner);\nplayer.sendMessage(\"§aYour team banner has been created!\");\n```",
+        "quiz": [
+          {
+            "id": "quiz-banner-07",
+            "question": "Can banners be created dynamically during runtime?",
+            "options": ["Yes", "No"], 
+            "correctIndex": 0
+          },
+          {
+            "id": "quiz-banner-08",
+            "question": "Which class is used to detect a player's team color?",
+            "options": ["Player", "Scoreboard/Team", "DyeColor", "BannerMeta"], 
+            "correctIndex": 1
+          }
+        ]
+      }
+    ]
+  }
+]
