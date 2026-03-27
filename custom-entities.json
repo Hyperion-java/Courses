@@ -2,16 +2,16 @@
   {
     "id": "custom-entities",
     "title": "Custom Entities in Minecraft",
-    "description": "Learn how to create and customize entities, mobs, and creatures in Minecraft plugins, including custom stats, AI, and events.",
+    "description": "A complete step-by-step guide to creating and controlling entities with full explanations, structure, AI, events, and debugging.",
     "icon": "👾",
     "order": 4,
     "createdAt": "2025-01-05T00:00:00.000Z",
     "lessons": [
       {
         "id": "entity-basics",
-        "title": "Entity Basics",
+        "title": "Entity Basics (FULL GUIDE)",
         "order": 1,
-        "content": "# What is an Entity?\n\nIn Minecraft, an entity is any object that can move or interact:\n- Players\n- Mobs (zombies, cows, etc.)\n- Projectiles (arrows, snowballs)\n\n## Example: Spawn a Zombie\n```java\nWorld world = player.getWorld();\nworld.spawnEntity(player.getLocation(), EntityType.ZOMBIE);\n```\n\n## Logic\n- World.spawnEntity() creates it\n- Location determines spawn point\n- EntityType defines what spawns\n\n## Edge Cases\n- Spawning in blocks → may suffocate\n- Too many entities → lag",
+        "content": "# Entity Basics (FULL GUIDE)\n\n## Step 1: Where This Code Goes\n\nOpen your command class OR test command\n→ Inside onCommand()\n\n---\n\n## Step 2: What is an Entity?\n\nEntity = anything that exists in the world and can move or interact\n\nExamples:\n- Players\n- Zombies\n- Arrows\n\n---\n\n## Step 3: Code (Spawn Entity)\n\n```java\nWorld world = player.getWorld();\nworld.spawnEntity(player.getLocation(), EntityType.ZOMBIE);\n```\n\n---\n\n## Step 4: FULL Breakdown\n\nWorld world = player.getWorld();\n→ gets world player is in\n\nspawnEntity(location, type)\n→ creates entity\n\nEntityType.ZOMBIE\n→ defines what to spawn\n\n---\n\n## Step 5: What Happens In-Game\n\nA zombie spawns at player location\n\n---\n\n## Step 6: Common Mistakes\n\n❌ Spawning inside block → suffocation\n❌ Spawning too many → lag\n\n---\n\n## Mini Challenge\nSpawn a cow instead\n\n## Recap\nWorld → spawn → entity type",
         "quiz": [
           {
             "id": "q1",
@@ -31,7 +31,7 @@
         "id": "entity-custom-name",
         "title": "Custom Names & Appearance",
         "order": 2,
-        "content": "# Customizing Name\n\n## Example\n```java\nEntity zombie = player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\nzombie.setCustomName(\"§cBoss Zombie\");\nzombie.setCustomNameVisible(true);\n```\n\n## Logic\n- setCustomName() gives it a unique name\n- setCustomNameVisible(true) makes it show above the entity\n\n## Edge Case\nToo many visible names may overlap in crowded areas",
+        "content": "# Custom Names (FULL GUIDE)\n\n## Step 1: Code\n\n```java\nEntity zombie = player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\nzombie.setCustomName(\"§cBoss Zombie\");\nzombie.setCustomNameVisible(true);\n```\n\n---\n\n## Step 2: FULL Breakdown\n\nsetCustomName(...)\n→ gives entity a name\n\n§c\n→ color code (red)\n\nsetCustomNameVisible(true)\n→ shows name above head\n\n---\n\n## Step 3: What Happens\n\nZombie appears with red name above it\n\n---\n\n## Step 4: Beginner Mistake\n\n❌ Forgetting setCustomNameVisible\n→ name won't show\n\n---\n\n## Mini Challenge\nMake name blue (§9)\n\n## Recap\nName + visible = custom mob",
         "quiz": [
           {
             "id": "q3",
@@ -51,7 +51,7 @@
         "id": "entity-health",
         "title": "Custom Health & Stats",
         "order": 3,
-        "content": "# Adjust Health and Stats\n\n## Example\n```java\nLivingEntity zombie = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\nzombie.setMaxHealth(40.0);\nzombie.setHealth(40.0);\nzombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.35);\n```\n\n## Logic\n- setMaxHealth → total HP\n- setHealth → current HP\n- Attributes can modify speed, damage, etc.\n\n## Edge Cases\n- Health > 2048 may crash server\n- Attributes must exist for entity type",
+        "content": "# Health & Stats (FULL GUIDE)\n\n## Step 1: IMPORTANT CONCEPT\n\nNot all entities support health.\n\nYou MUST use LivingEntity.\n\n---\n\n## Step 2: Code\n\n```java\nLivingEntity zombie = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\n\nzombie.setMaxHealth(40.0);\nzombie.setHealth(40.0);\n\nzombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.35);\n```\n\n---\n\n## Step 3: FULL Breakdown\n\n(LivingEntity)\n→ casting (changing type)\n\nsetMaxHealth\n→ total health\n\nsetHealth\n→ current health\n\ngetAttribute(...)\n→ access stats\n\nsetBaseValue\n→ changes stat\n\n---\n\n## Step 4: Why Casting Is Needed\n\nspawnEntity returns Entity\n\nBUT health only exists on LivingEntity\n\n---\n\n## Step 5: What Happens\n\nZombie:\n- has more HP\n- moves faster\n\n---\n\n## Step 6: Common Mistakes\n\n❌ Not casting → cannot use health methods\n\n---\n\n## Mini Challenge\nDouble movement speed\n\n## Recap\nEntity → cast → modify stats",
         "quiz": [
           {
             "id": "q5",
@@ -69,9 +69,9 @@
       },
       {
         "id": "entity-events",
-        "title": "Listening to Entity Events",
+        "title": "Entity Events (FULL GUIDE)",
         "order": 4,
-        "content": "# Entity Events\n\n## Example: Detect Entity Damage\n```java\n@EventHandler\npublic void onEntityDamage(EntityDamageEvent event) {\n    Entity entity = event.getEntity();\n    if (entity.getCustomName() != null && entity.getCustomName().equals(\"§cBoss Zombie\")) {\n        event.setDamage(event.getDamage() * 0.5);\n    }\n}\n```\n\n## Logic\n- Event triggers automatically\n- Check custom name or type\n- Modify damage or behavior\n\n## Edge Cases\n- Multiple plugins may listen to same event → conflicts",
+        "content": "# Entity Events (FULL GUIDE)\n\n## Step 1: Create Listener Class\n\nEntityListener.java\n\n---\n\n## Step 2: Code\n\n```java\npublic class EntityListener implements Listener {\n\n    @EventHandler\n    public void onEntityDamage(EntityDamageEvent event) {\n        Entity entity = event.getEntity();\n\n        if (entity.getCustomName() != null && entity.getCustomName().equals(\"§cBoss Zombie\")) {\n            event.setDamage(event.getDamage() * 0.5);\n        }\n    }\n}\n```\n\n---\n\n## Step 3: Register Listener\n\nIn Main.java:\n\n```java\ngetServer().getPluginManager().registerEvents(new EntityListener(), this);\n```\n\n---\n\n## Step 4: FULL Breakdown\n\n@EventHandler\n→ marks event\n\nEntityDamageEvent\n→ runs when entity damaged\n\ngetEntity()\n→ gets entity hit\n\nsetDamage\n→ modifies damage\n\n---\n\n## Step 5: What Happens\n\nBoss zombie takes HALF damage\n\n---\n\n## Step 6: Common Mistake\n\n❌ Not registering event → nothing happens\n\n---\n\n## Mini Challenge\nMake it take DOUBLE damage",
         "quiz": [
           {
             "id": "q7",
@@ -91,7 +91,7 @@
         "id": "entity-ai",
         "title": "Custom AI & Behavior",
         "order": 5,
-        "content": "# Changing AI\n\n## Example: Make Zombie Stop Moving\n```java\nZombie zombie = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\nzombie.setAI(false);\n```\n\n## Example: Make Entity Invisible\n```java\nzombie.setInvisible(true);\n```\n\n## Logic\n- setAI(false) → stops movement & pathfinding\n- setInvisible(true) → entity exists but can't be seen\n\n## Edge Cases\n- Disabling AI may break some plugins\n- Invisible entities can be confusing for players",
+        "content": "# AI & Behavior (FULL GUIDE)\n\n## Step 1: Code\n\n```java\nZombie zombie = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);\n\nzombie.setAI(false);\nzombie.setInvisible(true);\n```\n\n---\n\n## Step 2: FULL Breakdown\n\nsetAI(false)\n→ disables movement\n\nsetInvisible(true)\n→ hides entity\n\n---\n\n## Step 3: What Happens\n\nZombie:\n- does not move\n- cannot be seen\n\n---\n\n## Step 4: Why Use This\n\n- Boss mechanics\n- Traps\n- Custom mobs\n\n---\n\n## Step 5: Common Mistake\n\n❌ Invisible mobs confusing players\n\n---\n\n## Mini Challenge\nCreate invisible boss\n\n## Recap\nAI controls behaviour",
         "quiz": [
           {
             "id": "q9",
@@ -111,7 +111,7 @@
         "id": "entity-drops",
         "title": "Custom Drops & Loot",
         "order": 6,
-        "content": "# Custom Drops\n\n## Example\n```java\n@EventHandler\npublic void onEntityDeath(EntityDeathEvent event) {\n    Entity entity = event.getEntity();\n    if (entity.getCustomName() != null && entity.getCustomName().equals(\"§cBoss Zombie\")) {\n        event.getDrops().clear();\n        event.getDrops().add(new ItemStack(Material.DIAMOND, 5));\n    }\n}\n```\n\n## Logic\n- Clear default drops\n- Add custom items\n- Can include rare items or commands\n\n## Edge Cases\n- Too many drops → lag\n- Make sure drop items exist",
+        "content": "# Custom Drops (FULL GUIDE)\n\n## Step 1: Code\n\n```java\n@EventHandler\npublic void onEntityDeath(EntityDeathEvent event) {\n    Entity entity = event.getEntity();\n\n    if (entity.getCustomName() != null && entity.getCustomName().equals(\"§cBoss Zombie\")) {\n        event.getDrops().clear();\n        event.getDrops().add(new ItemStack(Material.DIAMOND, 5));\n    }\n}\n```\n\n---\n\n## Step 2: FULL Breakdown\n\ngetDrops()\n→ list of drops\n\nclear()\n→ removes default\n\nadd(...)\n→ adds custom item\n\n---\n\n## Step 3: What Happens\n\nBoss zombie drops diamonds\n\n---\n\n## Step 4: Common Mistakes\n\n❌ Not clearing drops → duplicates\n\n---\n\n## Mini Challenge\nDrop emeralds instead\n\n## Recap\nControl loot system",
         "quiz": [
           {
             "id": "q11",
@@ -123,26 +123,6 @@
             "id": "q12",
             "question": "Why clear drops first?",
             "options": ["For fun", "To remove defaults", "Optional", "Never needed"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
-        "id": "testing-entities",
-        "title": "Testing & Debugging Entities",
-        "order": 7,
-        "content": "# Testing Custom Entities\n\n## Steps\n1. Spawn entity in safe area\n2. Check name, health, AI\n3. Test events (damage, death, interaction)\n4. Adjust attributes\n5. Watch for lag\n\n## Logic\n- Test each feature separately\n- Log errors using getLogger()\n\n## Edge Cases\n- Server may lag with many custom entities\n- Conflicting plugins may override behavior",
-        "quiz": [
-          {
-            "id": "q13",
-            "question": "First step when testing?",
-            "options": ["Spawn entity", "Edit code", "Restart server", "Ignore"],
-            "correctIndex": 0
-          },
-          {
-            "id": "q14",
-            "question": "Why test each feature separately?",
-            "options": ["For fun", "Avoid conflicts and errors", "Faster spawning", "Unnecessary"],
             "correctIndex": 1
           }
         ]
