@@ -2,7 +2,7 @@
   {
     "id": "command-arguments",
     "title": "Mastering Command Arguments",
-    "description": "Learn how to handle, validate, and use command arguments like a pro, including players, numbers, booleans, and advanced parsing.",
+    "description": "Learn step-by-step how to handle command arguments with full explanations, structure, validation, and real-world usage.",
     "icon": "📦",
     "order": 2,
     "createdAt": "2025-01-03T00:00:00.000Z",
@@ -11,7 +11,7 @@
         "id": "args-basics",
         "title": "Argument Basics",
         "order": 1,
-        "content": "# What Are Arguments?\n\nArguments are extra words after a command.\n\nExample:\n`/heal Steve`\n\n- args[0] = \"Steve\"\n\n## Example Code\n```java\nif (args.length > 0) {\n    sender.sendMessage(\"Hello \" + args[0]);\n}\n```\n\n## Logic\n- args is an array\n- Starts at index 0\n\n## Edge Case\nAccessing args[0] without checking length will crash.",
+        "content": "# Argument Basics (FULL GUIDE)\n\n## Step 1: Where This Code Goes\n\nOpen IntelliJ\n→ Go to your command class\n→ Find your onCommand method\n\nExample structure:\n\n```java\npublic boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {\n\n}\n```\n\nYou will write ALL argument code INSIDE this method.\n\n## Step 2: What Are Arguments?\n\nArguments = words after the command\n\nExample:\n/heal Steve\n\n- args[0] = \"Steve\"\n\n## Step 3: Code Example\n\n```java\nif (args.length > 0) {\n    sender.sendMessage(\"Hello \" + args[0]);\n}\n```\n\n## Step 4: FULL Breakdown\n\nargs\n→ This is an ARRAY (list of values)\n\nargs.length\n→ how many arguments were typed\n\nargs[0]\n→ first argument\n\n+ → joins text together\n\n## Step 5: VERY IMPORTANT (ARRAY RULE)\n\nArrays start at index 0\n\nargs[0] = first\nargs[1] = second\nargs[2] = third\n\n## Step 6: What Happens In-Game\n\nCommand:\n/hello Steve\n\nOutput:\nHello Steve\n\n## Step 7: CRITICAL ERROR\n\n❌ Using args[0] without checking length\n→ Causes ArrayIndexOutOfBoundsException\n\n## Step 8: Why This Happens\n\nIf player types:\n/hello\n\nThere is NO args[0]\n\n## Mini Challenge\nMake it say \"Welcome <name>\"\n\n## Recap\n- args = list\n- starts at 0\n- MUST check length",
         "quiz": [
           {
             "id": "q1",
@@ -37,7 +37,7 @@
         "id": "args-validation",
         "title": "Validating Arguments",
         "order": 2,
-        "content": "# Validating Input\n\n## Length Check\n```java\nif (args.length < 1) {\n    sender.sendMessage(\"Usage: /heal <player>\");\n    return true;\n}\n```\n\n## Exact Length\n```java\nif (args.length != 1) {\n    sender.sendMessage(\"Invalid usage\");\n}\n```\n\n## Logic\n- Prevent errors\n- Guide user\n\n## Best Practice\nAlways validate before using args.",
+        "content": "# Argument Validation (FULL GUIDE)\n\n## Step 1: Why Validation Matters\n\nPlayers can type ANYTHING:\n- Missing args\n- Too many args\n- Wrong format\n\nYou MUST control this.\n\n## Step 2: Basic Length Check\n\n```java\nif (args.length < 1) {\n    sender.sendMessage(\"Usage: /heal <player>\");\n    return true;\n}\n```\n\n## Step 3: Breakdown\n\nargs.length < 1\n→ no arguments provided\n\nreturn true;\n→ STOPS command execution\n\n## Step 4: Exact Length Check\n\n```java\nif (args.length != 1) {\n    sender.sendMessage(\"Invalid usage\");\n    return true;\n}\n```\n\n!= means NOT equal\n\n## Step 5: Where This Goes\n\nALWAYS at the TOP of your command method\n\n## Step 6: What Happens In-Game\n\nWrong usage:\n/heal\n\nOutput:\nUsage: /heal <player>\n\n## Step 7: Beginner Mistake\n\n❌ Checking AFTER using args\n✔️ ALWAYS check BEFORE\n\n## Mini Challenge\nRequire exactly 2 arguments\n\n## Recap\nValidate FIRST → then use args",
         "quiz": [
           {
             "id": "q4",
@@ -63,7 +63,7 @@
         "id": "player-arguments",
         "title": "Player Arguments",
         "order": 3,
-        "content": "# Targeting Players\n\n## Example\n```java\nPlayer target = Bukkit.getPlayer(args[0]);\n\nif (target == null) {\n    sender.sendMessage(\"Player not found\");\n    return true;\n}\n\ntarget.sendMessage(\"You were targeted!\");\n```\n\n## Logic\n- Convert string → player\n- Check if exists\n\n## Edge Case\nOffline players return null.",
+        "content": "# Player Arguments (FULL GUIDE)\n\n## Step 1: Goal\n\nConvert text → Player object\n\nExample:\n/heal Steve\n\n## Step 2: Code\n\n```java\nPlayer target = Bukkit.getPlayer(args[0]);\n\nif (target == null) {\n    sender.sendMessage(\"Player not found\");\n    return true;\n}\n```\n\n## Step 3: FULL Breakdown\n\nBukkit.getPlayer(...)\n→ Finds online player\n\nargs[0]\n→ player name\n\n== null\n→ means player NOT found\n\n## Step 4: WHY null happens\n\n- Player offline\n- Name wrong\n\n## Step 5: Where This Goes\n\nAFTER validation check\n\n## Step 6: What Happens\n\nIf player exists → continue\nIf not → message shown\n\n## Step 7: CRITICAL RULE\n\n❌ Using target without null check → crash\n\n## Mini Challenge\nSend target a message\n\n## Recap\nString → Player\nCheck null ALWAYS",
         "quiz": [
           {
             "id": "q7",
@@ -89,7 +89,7 @@
         "id": "number-arguments",
         "title": "Number Arguments",
         "order": 4,
-        "content": "# Parsing Numbers\n\n## Example\n```java\nint amount;\n\ntry {\n    amount = Integer.parseInt(args[0]);\n} catch (NumberFormatException e) {\n    sender.sendMessage(\"Must be a number!\");\n    return true;\n}\n```\n\n## Logic\n- Convert string → int\n- Catch invalid input\n\n## Edge Case\nUser enters text → crash if not handled.",
+        "content": "# Number Arguments (FULL GUIDE)\n\n## Step 1: Problem\n\nargs are ALWAYS strings\n\nYou must convert them\n\n## Step 2: Code\n\n```java\nint amount;\n\ntry {\n    amount = Integer.parseInt(args[0]);\n} catch (NumberFormatException e) {\n    sender.sendMessage(\"Must be a number!\");\n    return true;\n}\n```\n\n## Step 3: FULL Breakdown\n\nInteger.parseInt(...)\n→ converts string → int\n\ntry { }\n→ attempts risky code\n\ncatch (...) { }\n→ runs if error happens\n\n## Step 4: Why This Is Needed\n\nIf player types:\n/give abc\n\n→ CRASH without try-catch\n\n## Step 5: What Happens\n\nValid number → works\nInvalid → message\n\n## Step 6: Beginner Mistake\n\n❌ Not using try-catch\n\n## Mini Challenge\nParse args[1] instead\n\n## Recap\nAlways protect number parsing",
         "quiz": [
           {
             "id": "q10",
@@ -112,36 +112,10 @@
         ]
       },
       {
-        "id": "boolean-arguments",
-        "title": "Boolean Arguments",
-        "order": 5,
-        "content": "# True/False Arguments\n\n## Example\n```java\nboolean enabled = Boolean.parseBoolean(args[0]);\n\nif (enabled) {\n    sender.sendMessage(\"Enabled!\");\n} else {\n    sender.sendMessage(\"Disabled!\");\n}\n```\n\n## Logic\n- \"true\" → true\n- Anything else → false\n\n## Warning\n\"yes\" or \"1\" = false",
-        "quiz": [
-          {
-            "id": "q13",
-            "question": "What parses boolean?",
-            "options": ["parseBool()", "Boolean.parseBoolean()", "toBoolean()", "bool()"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q14",
-            "question": "\"true\" becomes?",
-            "options": ["false", "true", "null", "error"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q15",
-            "question": "\"yes\" becomes?",
-            "options": ["true", "false", "error", "null"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
         "id": "multi-arguments",
         "title": "Multiple Arguments & Subcommands",
-        "order": 6,
-        "content": "# Multiple Args\n\n## Example\n`/give Steve diamond 5`\n\n```java\nif (args.length < 3) return true;\n\nString playerName = args[0];\nString item = args[1];\nint amount = Integer.parseInt(args[2]);\n```\n\n## Logic\n- Each index = different meaning\n\n## Subcommands\n```java\nif (args[0].equalsIgnoreCase(\"give\")) {}\n```\n\n## Structure\n- args[0] = action\n- args[1+] = data",
+        "order": 5,
+        "content": "# Multiple Arguments (FULL GUIDE)\n\n## Step 1: Example Command\n\n/give Steve diamond 5\n\n## Step 2: Code\n\n```java\nif (args.length < 3) return true;\n\nString playerName = args[0];\nString item = args[1];\nint amount = Integer.parseInt(args[2]);\n```\n\n## Step 3: Breakdown\n\nargs[0] → player\nargs[1] → item\nargs[2] → amount\n\n## Step 4: Subcommands\n\n```java\nif (args[0].equalsIgnoreCase(\"give\")) {\n\n}\n```\n\n.equalsIgnoreCase\n→ compares text ignoring case\n\n## Step 5: Structure\n\nargs[0] = action\nargs[1+] = data\n\n## Step 6: What Happens\n\nCommand splits into parts\n\n## Step 7: Common Mistake\n\n❌ Forgetting length check\n\n## Mini Challenge\nMake /heal <player> <amount>\n\n## Recap\nEach arg has meaning",
         "quiz": [
           {
             "id": "q16",
@@ -159,32 +133,6 @@
             "id": "q18",
             "question": "Need to check length?",
             "options": ["No", "Yes", "Sometimes", "Never"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
-        "id": "advanced-parsing",
-        "title": "Advanced Parsing & Edge Cases",
-        "order": 7,
-        "content": "# Advanced Handling\n\n## Join Arguments\n```java\nString message = String.join(\" \", args);\n```\n\n## Example\n`/say Hello world`\n\n## Logic\n- Combine all args\n\n## Edge Cases\n- Empty args\n- Invalid types\n- Offline players\n\n## Best Practice\nValidate EVERYTHING before use.",
-        "quiz": [
-          {
-            "id": "q19",
-            "question": "What joins args?",
-            "options": ["merge()", "combine()", "String.join()", "concatAll()"],
-            "correctIndex": 2
-          },
-          {
-            "id": "q20",
-            "question": "Why handle edge cases?",
-            "options": ["Looks cool", "Avoid bugs", "Not needed", "Faster"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q21",
-            "question": "Best dev habit?",
-            "options": ["Ignore errors", "Validate inputs", "Skip checks", "Hardcode"],
             "correctIndex": 1
           }
         ]
