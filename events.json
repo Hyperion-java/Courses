@@ -2,16 +2,16 @@
   {
     "id": "events-system",
     "title": "Mastering Minecraft Events",
-    "description": "Deep dive into Paper/Spigot events with real examples, logic handling, edge cases, and testing.",
+    "description": "A complete, deeply explained guide to events including setup, listeners, priorities, async handling, and real debugging workflow.",
     "icon": "⚡",
     "order": 1,
     "createdAt": "2025-01-02T00:00:00.000Z",
     "lessons": [
       {
         "id": "intro-to-events",
-        "title": "Introduction to Events",
+        "title": "Introduction to Events (FULL GUIDE)",
         "order": 1,
-        "content": "# What Are Events?\n\nEvents let your plugin react to things happening on the server.\n\n## Examples\n- Player joins\n- Block breaks\n- Player sends chat\n\n## Basic Example\n```java\n@EventHandler\npublic void onJoin(PlayerJoinEvent event) {\n    event.getPlayer().sendMessage(\"Welcome to the server!\");\n}\n```\n\n## Logic Breakdown\n- Server fires event\n- Your listener catches it\n- Your code runs\n\n## Common Mistakes\n- Forgetting @EventHandler\n- Not registering the listener\n- Using wrong event type",
+        "content": "# Introduction to Events (FULL GUIDE)\n\n## Step 1: WHERE THIS CODE GOES\n\nCreate a new class:\n\nJoinListener.java\n\nInside your plugin package.\n\n---\n\n## Step 2: REQUIRED STRUCTURE\n\n```java\npublic class JoinListener implements Listener {\n\n    @EventHandler\n    public void onJoin(PlayerJoinEvent event) {\n        event.getPlayer().sendMessage(\"Welcome to the server!\");\n    }\n\n}\n```\n\n---\n\n## Step 3: FULL BREAKDOWN (LINE BY LINE)\n\nimplements Listener\n→ tells Spigot this class listens to events\n\n@EventHandler\n→ REQUIRED annotation or event will NOT run\n\nPlayerJoinEvent\n→ specific event type\n\nonJoin(...)\n→ method name can be anything\n\nevent.getPlayer()\n→ gets player who triggered event\n\n---\n\n## Step 4: WHAT ACTUALLY HAPPENS (IMPORTANT)\n\n1. Player joins server\n2. Server fires PlayerJoinEvent\n3. Your listener catches it\n4. Your code runs\n\n---\n\n## Step 5: COMMON BEGINNER MISTAKES\n\n❌ Forgetting @EventHandler → nothing runs\n❌ Wrong event import → code \"works\" but never fires\n❌ Not registering listener (VERY COMMON)\n\n---\n\n## Mini Challenge\nChange message to show player name\n\n## Recap\nEvent = trigger → listener → code executes",
         "quiz": [
           {
             "id": "q1",
@@ -24,173 +24,125 @@
             "question": "What annotation is required?",
             "options": ["@Run", "@EventHandler", "@Listener", "@Execute"],
             "correctIndex": 1
-          },
-          {
-            "id": "q3",
-            "question": "What happens if you forget @EventHandler?",
-            "options": ["Code runs anyway", "Event is ignored", "Server crashes", "Plugin disables"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q4",
-            "question": "What object gives access to the player?",
-            "options": ["Server", "Event", "PlayerJoinEvent", "Plugin"],
-            "correctIndex": 2
           }
         ]
       },
       {
         "id": "registering-events",
-        "title": "Registering Event Listeners",
+        "title": "Registering Event Listeners (CRITICAL)",
         "order": 2,
-        "content": "# Registering Events\n\n## Step 1: Create Listener\n```java\npublic class JoinListener implements Listener {\n}\n```\n\n## Step 2: Register in Main Class\n```java\ngetServer().getPluginManager().registerEvents(new JoinListener(), this);\n```\n\n## Logic\n- Listener class exists\n- Server must be told to use it\n- Without this, nothing runs\n\n## Test\nAdd a print message:\n```java\ngetLogger().info(\"Listener loaded\");\n```\nCheck console when starting server.",
+        "content": "# Registering Events (FULL GUIDE)\n\n## Step 1: WHY THIS MATTERS\n\nIf you DON'T register your listener...\n\n➡ NOTHING WILL WORK\n\n---\n\n## Step 2: WHERE TO PUT THIS\n\nMain class (your plugin class)\n\nExample:\n\nMain.java\n\n---\n\n## Step 3: CODE\n\n```java\n@Override\npublic void onEnable() {\n    getServer().getPluginManager().registerEvents(new JoinListener(), this);\n}\n```\n\n---\n\n## Step 4: FULL BREAKDOWN\n\nonEnable()\n→ runs when plugin starts\n\ngetServer().getPluginManager()\n→ gets system controlling events\n\nregisterEvents(listener, plugin)\n→ connects your listener to server\n\nnew JoinListener()\n→ creates instance of your class\n\nthis\n→ your plugin instance\n\n---\n\n## Step 5: HOW TO TEST\n\nAdd this:\n\n```java\ngetLogger().info(\"Events registered\");\n```\n\nCheck console on startup\n\n---\n\n## Step 6: COMMON MISTAKE\n\n❌ Putting registerEvents in wrong class\n❌ Forgetting to restart server\n\n---\n\n## Mini Challenge\nRegister a second listener",
         "quiz": [
           {
-            "id": "q5",
-            "question": "What interface must listeners implement?",
-            "options": ["Runnable", "Listener", "Event", "Executor"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q6",
+            "id": "q3",
             "question": "Where do you register events?",
             "options": ["plugin.yml", "Main class", "Listener class", "Config"],
             "correctIndex": 1
           },
           {
-            "id": "q7",
-            "question": "What happens if not registered?",
-            "options": ["Runs anyway", "Ignored", "Server crash", "Plugin reload"],
+            "id": "q4",
+            "question": "If not registered?",
+            "options": ["Runs anyway", "Ignored", "Server crash", "Reload"],
             "correctIndex": 1
-          },
-          {
-            "id": "q8",
-            "question": "What does PluginManager do?",
-            "options": ["Manages plugins and events", "Deletes plugins", "Compiles code", "Runs Java"],
-            "correctIndex": 0
           }
         ]
       },
       {
         "id": "player-events",
-        "title": "Player Events",
+        "title": "Player Events (DEEP EXPLANATION)",
         "order": 3,
-        "content": "# Player Events\n\n## Join Event\n```java\n@EventHandler\npublic void onJoin(PlayerJoinEvent event) {\n    event.getPlayer().sendMessage(\"Hello \" + event.getPlayer().getName());\n}\n```\n\n## Quit Event\n```java\n@EventHandler\npublic void onQuit(PlayerQuitEvent event) {\n    System.out.println(event.getPlayer().getName() + \" left\");\n}\n```\n\n## Logic\n- Player triggers event\n- Event object stores data\n- You read and modify behavior\n\n## Edge Case\nNull checks rarely needed here, but always assume player exists only during event.",
+        "content": "# Player Events (FULL GUIDE)\n\n## Step 1: CODE\n\n```java\n@EventHandler\npublic void onJoin(PlayerJoinEvent event) {\n    Player player = event.getPlayer();\n    player.sendMessage(\"Hello \" + player.getName());\n}\n```\n\n---\n\n## Step 2: BREAKDOWN\n\nPlayer player = event.getPlayer();\n→ store player for reuse\n\ngetName()\n→ returns username\n\n---\n\n## Quit Event\n\n```java\n@EventHandler\npublic void onQuit(PlayerQuitEvent event) {\n    System.out.println(event.getPlayer().getName() + \" left\");\n}\n```\n\n---\n\n## Step 3: WHAT HAPPENS\n\nJoin → message sent\nLeave → console log printed\n\n---\n\n## Step 4: REAL DEV TIP\n\nStore player in variable instead of repeating:\n\n❌ event.getPlayer().getName() multiple times\n\n✅ Player player = event.getPlayer();\n\n---\n\n## Mini Challenge\nSend title instead of chat message",
         "quiz": [
           {
-            "id": "q9",
-            "question": "Which event runs when a player joins?",
+            "id": "q5",
+            "question": "Which event runs when player joins?",
             "options": ["PlayerEnterEvent", "PlayerJoinEvent", "JoinEvent", "PlayerLogin"],
             "correctIndex": 1
           },
           {
-            "id": "q10",
-            "question": "How do you get player name?",
-            "options": ["getUser()", "getPlayer().getName()", "name()", "player.name"],
+            "id": "q6",
+            "question": "Best practice?",
+            "options": ["Repeat code", "Store variable", "Ignore player", "Hardcode"],
             "correctIndex": 1
-          },
-          {
-            "id": "q11",
-            "question": "Quit event is called when?",
-            "options": ["Join", "Death", "Leave server", "Login"],
-            "correctIndex": 2
           }
         ]
       },
       {
         "id": "block-events",
-        "title": "Block Events",
+        "title": "Block Events (CONTROL GAMEPLAY)",
         "order": 4,
-        "content": "# Block Events\n\n## Block Break Example\n```java\n@EventHandler\npublic void onBreak(BlockBreakEvent event) {\n    event.getPlayer().sendMessage(\"You broke \" + event.getBlock().getType());\n}\n```\n\n## Cancel Example\n```java\n@EventHandler\npublic void onBreak(BlockBreakEvent event) {\n    if (event.getBlock().getType().toString().contains(\"DIAMOND\")) {\n        event.setCancelled(true);\n    }\n}\n```\n\n## Logic\n- Event fires\n- Check conditions\n- Cancel or modify\n\n## Testing\nTry breaking diamond ore — should fail.",
+        "content": "# Block Events (FULL GUIDE)\n\n## Step 1: CODE\n\n```java\n@EventHandler\npublic void onBreak(BlockBreakEvent event) {\n    if (event.getBlock().getType().toString().contains(\"DIAMOND\")) {\n        event.setCancelled(true);\n    }\n}\n```\n\n---\n\n## Step 2: BREAKDOWN\n\ngetBlock()\n→ gets block broken\n\ngetType()\n→ gets material\n\nsetCancelled(true)\n→ STOPS action\n\n---\n\n## Step 3: WHAT HAPPENS\n\nPlayer tries to break diamond block\n→ event cancelled\n→ block stays\n\n---\n\n## Step 4: IMPORTANT CONCEPT\n\nEvents can be:\n\n✔ Modified\n✔ Cancelled\n✔ Observed\n\n---\n\n## Step 5: COMMON MISTAKE\n\n❌ Forgetting setCancelled\n→ logic runs but does nothing\n\n---\n\n## Mini Challenge\nOnly allow breaking stone",
         "quiz": [
           {
-            "id": "q12",
-            "question": "How do you stop block breaking?",
+            "id": "q7",
+            "question": "How to stop action?",
             "options": ["return false", "event.cancel()", "event.setCancelled(true)", "stop()"],
             "correctIndex": 2
           },
           {
-            "id": "q13",
-            "question": "What gives block type?",
-            "options": ["getType()", "block()", "getBlock().getType()", "type()"],
-            "correctIndex": 2
-          },
-          {
-            "id": "q14",
-            "question": "What happens if cancelled?",
-            "options": ["Still breaks", "Stops action", "Deletes block", "Crashes"],
+            "id": "q8",
+            "question": "getType returns?",
+            "options": ["String", "Material", "Block", "Event"],
             "correctIndex": 1
           }
         ]
       },
       {
         "id": "chat-events",
-        "title": "Chat Events",
+        "title": "Chat Events (ASYNC WARNING)",
         "order": 5,
-        "content": "# Chat Events\n\n## Example\n```java\n@EventHandler\npublic void onChat(AsyncPlayerChatEvent event) {\n    event.setMessage(\"[Modified] \" + event.getMessage());\n}\n```\n\n## Logic\n- Async event (runs off main thread)\n- Modify message\n\n## Warning\nAvoid heavy tasks in async events.",
+        "content": "# Chat Events (FULL GUIDE)\n\n## Step 1: CODE\n\n```java\n@EventHandler\npublic void onChat(AsyncPlayerChatEvent event) {\n    event.setMessage(\"[Modified] \" + event.getMessage());\n}\n```\n\n---\n\n## Step 2: IMPORTANT CONCEPT\n\nAsync = NOT main server thread\n\n---\n\n## Step 3: WHAT THIS MEANS\n\n❌ DO NOT:\n- Access world\n- Teleport players\n\n✔ SAFE:\n- Modify message\n\n---\n\n## Step 4: WHAT HAPPENS\n\nPlayer sends message\n→ plugin edits it\n\n---\n\n## Step 5: COMMON MISTAKE\n\n❌ Doing heavy logic → lag or crashes\n\n---\n\n## Mini Challenge\nAdd player prefix",
         "quiz": [
           {
-            "id": "q15",
-            "question": "Chat event is?",
-            "options": ["Sync", "Async", "None", "Manual"],
+            "id": "q9",
+            "question": "Chat event type?",
+            "options": ["Sync", "Async", "Manual", "Static"],
             "correctIndex": 1
           },
           {
-            "id": "q16",
-            "question": "What modifies message?",
-            "options": ["setText()", "setMessage()", "message()", "edit()"],
-            "correctIndex": 1
+            "id": "q10",
+            "question": "Safe in async?",
+            "options": ["World edits", "Teleport", "Modify message", "Spawn mobs"],
+            "correctIndex": 2
           }
         ]
       },
       {
         "id": "event-priority",
-        "title": "Event Priority & Advanced Control",
+        "title": "Event Priority (ADVANCED CONTROL)",
         "order": 6,
-        "content": "# Event Priority\n\n## Example\n```java\n@EventHandler(priority = EventPriority.HIGH)\npublic void onBreak(BlockBreakEvent event) {}\n```\n\n## Priorities\n- LOW\n- NORMAL\n- HIGH\n- HIGHEST\n- MONITOR\n\n## Logic\nHigher priority = runs later\n\n## Ignore Cancelled\n```java\n@EventHandler(ignoreCancelled = true)\n```\n\nSkips cancelled events.",
+        "content": "# Event Priority (FULL GUIDE)\n\n## Step 1: CODE\n\n```java\n@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)\npublic void onBreak(BlockBreakEvent event) {}\n```\n\n---\n\n## Step 2: PRIORITIES ORDER\n\nLOW → NORMAL → HIGH → HIGHEST → MONITOR\n\n---\n\n## Step 3: WHAT THIS MEANS\n\nLOW = runs first\nMONITOR = runs last (do NOT modify)\n\n---\n\n## Step 4: ignoreCancelled\n\nSkips events already cancelled\n\n---\n\n## Step 5: REAL USE CASE\n\n- LOW: modify behaviour early\n- HIGH: override others\n- MONITOR: logging only\n\n---\n\n## Mini Challenge\nLog only cancelled events",
         "quiz": [
           {
-            "id": "q17",
+            "id": "q11",
             "question": "Which runs last?",
-            "options": ["LOW", "NORMAL", "HIGHEST", "MONITOR"],
+            "options": ["LOW", "HIGH", "HIGHEST", "MONITOR"],
             "correctIndex": 3
           },
           {
-            "id": "q18",
-            "question": "ignoreCancelled does what?",
-            "options": ["Stops event", "Ignores cancelled ones", "Cancels event", "Logs"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q19",
-            "question": "Default priority?",
-            "options": ["LOW", "NORMAL", "HIGH", "MONITOR"],
+            "id": "q12",
+            "question": "ignoreCancelled?",
+            "options": ["Cancels event", "Skips cancelled ones", "Logs", "Stops server"],
             "correctIndex": 1
           }
         ]
       },
       {
         "id": "testing-debugging",
-        "title": "Testing & Debugging Events",
+        "title": "Testing & Debugging (REAL DEV WORKFLOW)",
         "order": 7,
-        "content": "# Debugging Events\n\n## Print Logs\n```java\ngetLogger().info(\"Event fired\");\n```\n\n## Common Bugs\n- Not registered\n- Wrong event\n- Plugin not reloaded\n\n## Testing Strategy\n1. Trigger event manually\n2. Check console\n3. Add debug logs\n\n## Advanced Test\nUse conditions:\n```java\nif(event.getPlayer().hasPermission(\"test\")) {}\n```",
+        "content": "# Debugging Events (FULL GUIDE)\n\n## Step 1: ALWAYS USE LOGS\n\n```java\ngetLogger().info(\"Event fired\");\n```\n\n---\n\n## Step 2: DEBUG FLOW\n\n1. Trigger event\n2. Check console\n3. Add logs\n4. Narrow problem\n\n---\n\n## Step 3: COMMON ISSUES\n\n❌ Not registered\n❌ Wrong import\n❌ Plugin not reloaded\n❌ Event cancelled elsewhere\n\n---\n\n## Step 4: PRO TIP\n\nCheck if cancelled:\n\n```java\nif (event.isCancelled()) {\n    getLogger().info(\"Cancelled by another plugin\");\n}\n```\n\n---\n\n## Step 5: WHAT PROS DO\n\n- Test ONE thing at a time\n- Log EVERYTHING\n- Never guess\n\n---\n\n## Mini Challenge\nLog player name on every event",
         "quiz": [
           {
-            "id": "q20",
-            "question": "Best way to debug?",
+            "id": "q13",
+            "question": "Best debug method?",
             "options": ["Guess", "Logs", "Delete code", "Restart PC"],
             "correctIndex": 1
           },
           {
-            "id": "q21",
-            "question": "If event not firing?",
-            "options": ["Check registration", "Delete plugin", "Ignore", "Reinstall Java"],
-            "correctIndex": 0
-          },
-          {
-            "id": "q22",
-            "question": "What helps testing?",
-            "options": ["Logs", "No code", "Errors", "Nothing"],
+            "id": "q14",
+            "question": "Event not firing?",
+            "options": ["Check registration", "Ignore", "Delete plugin", "Reinstall Java"],
             "correctIndex": 0
           }
         ]
