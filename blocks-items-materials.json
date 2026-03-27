@@ -2,7 +2,7 @@
   {
     "id": "blocks-items-materials",
     "title": "Blocks, ItemStacks & Materials",
-    "description": "Learn how to work with Minecraft blocks, items, and materials, including placing, modifying, creating ItemStacks, and custom attributes.",
+    "description": "Learn step-by-step how to work with blocks, items, and materials with full explanations, structure, and reasoning.",
     "icon": "🧱",
     "order": 5,
     "createdAt": "2025-01-06T00:00:00.000Z",
@@ -11,7 +11,7 @@
         "id": "blocks-basics",
         "title": "Blocks Basics",
         "order": 1,
-        "content": "# Working with Blocks\n\nBlocks are the basic building units in Minecraft.\n\n## Example: Place a Block\n```java\nLocation loc = player.getLocation();\nloc.getBlock().setType(Material.DIAMOND_BLOCK);\n```\n\n## Logic\n- getBlock() → returns the block at the location\n- setType(Material) → changes the block type\n\n## Edge Cases\n- Overwriting blocks may remove existing structures\n- Some blocks require correct placement (e.g., redstone components)",
+        "content": "# Blocks Basics (FULL GUIDE)\n\n## Step 1: Open Your Project\nOpen IntelliJ\n→ Go to your plugin project\n→ Navigate to:\n\nsrc/main/java/your/package/Main.java (or your command class)\n\nYou will be writing code INSIDE a method (for now assume inside a command or event).\n\n## Step 2: Understanding What a Block Is\nA Block is ANY block in the world:\n- Stone\n- Dirt\n- Diamond block\n\nMinecraft stores blocks at locations.\n\n## Step 3: Code (Place a Block)\n\n```java\nLocation loc = player.getLocation();\nloc.getBlock().setType(Material.DIAMOND_BLOCK);\n```\n\n## Step 4: FULL Breakdown (Line-by-Line)\n\nLine 1:\nLocation loc = player.getLocation();\n\n- Location = a class (type of variable)\n- loc = variable name\n- = assigns value\n- player.getLocation() = gets player's current position\n\nLine 2:\nloc.getBlock().setType(Material.DIAMOND_BLOCK);\n\nBreak it down:\n- loc.getBlock()\n  → gets the block at that location\n\n- .setType(...)\n  → changes what block it is\n\n- Material.DIAMOND_BLOCK\n  → specific block type\n\n## Step 5: WHERE This Code Goes\n\nThis MUST be inside a method, for example:\n- inside a command\n- inside an event\n\n❌ WRONG (outside class)\n✔️ CORRECT (inside method)\n\n## Step 6: What Happens In-Game\n\nWhen run:\n→ The block at the player's position becomes a diamond block\n\n## Step 7: Common Mistakes\n\n❌ player is null → causes crash\n✔️ Make sure you are using a Player object\n\n❌ Running in console\n✔️ This only works for players\n\n## Step 8: Why This Works\n\nMinecraft world = grid of blocks\nLocation → finds position\ngetBlock() → gets block\nsetType() → replaces it\n\n## Mini Challenge\nChange it to GOLD_BLOCK instead\n\n## Recap\nYou:\n- Got player location\n- Got block\n- Changed block type",
         "quiz": [
           {
             "id": "q1",
@@ -31,7 +31,7 @@
         "id": "itemstack-basics",
         "title": "ItemStack Basics",
         "order": 2,
-        "content": "# Creating ItemStacks\n\nItemStacks represent items in inventories.\n\n## Example: Give Player an Item\n```java\nItemStack diamond = new ItemStack(Material.DIAMOND, 5);\nplayer.getInventory().addItem(diamond);\n```\n\n## Logic\n- ItemStack(material, amount) creates item\n- addItem() adds to inventory\n\n## Edge Cases\n- Inventory full → item may drop on ground",
+        "content": "# ItemStack Basics (FULL GUIDE)\n\n## Step 1: Where This Goes\nOpen your command class\n→ Inside your command method\n\n## Step 2: What is an ItemStack?\n\nItemStack = an item in Minecraft\n\nExample:\n- 1 diamond\n- 5 apples\n- 64 dirt\n\n## Step 3: Code\n\n```java\nItemStack diamond = new ItemStack(Material.DIAMOND, 5);\nplayer.getInventory().addItem(diamond);\n```\n\n## Step 4: FULL Breakdown\n\nLine 1:\nItemStack diamond = new ItemStack(Material.DIAMOND, 5);\n\n- ItemStack = class\n- diamond = variable name\n- new = creates object\n- Material.DIAMOND = item type\n- 5 = amount\n\nLine 2:\nplayer.getInventory().addItem(diamond);\n\n- getInventory() → gets player's inventory\n- addItem() → adds item\n\n## Step 5: What Happens\n\nPlayer receives 5 diamonds\n\n## Step 6: Edge Case\n\nInventory full:\n→ Item drops on ground\n\n## Step 7: Beginner Mistake\n\n❌ Forgetting 'new'\n✔️ Always use new ItemStack(...)\n\n## Mini Challenge\nGive player 10 apples\n\n## Recap\nItemStack = item\nInventory = storage",
         "quiz": [
           {
             "id": "q3",
@@ -51,7 +51,7 @@
         "id": "custom-item-names",
         "title": "Custom Item Names & Lore",
         "order": 3,
-        "content": "# Naming & Lore\n\n## Example\n```java\nItemStack sword = new ItemStack(Material.DIAMOND_SWORD);\nItemMeta meta = sword.getItemMeta();\nmeta.setDisplayName(\"§6Epic Sword\");\nmeta.setLore(Arrays.asList(\"Sharp and shiny\", \"Handle with care\"));\nsword.setItemMeta(meta);\nplayer.getInventory().addItem(sword);\n```\n\n## Logic\n- ItemMeta stores display name, lore, enchantments, etc.\n- setItemMeta() applies the changes\n\n## Edge Cases\n- Some items cannot have certain meta (e.g., AIR)\n- Too long lore may overflow chat",
+        "content": "# Custom Items (FULL GUIDE)\n\n## Step 1: Where to Write\nInside your command method\n\n## Step 2: Code\n\n```java\nItemStack sword = new ItemStack(Material.DIAMOND_SWORD);\nItemMeta meta = sword.getItemMeta();\nmeta.setDisplayName(\"§6Epic Sword\");\nmeta.setLore(Arrays.asList(\"Sharp and shiny\", \"Handle with care\"));\nsword.setItemMeta(meta);\nplayer.getInventory().addItem(sword);\n```\n\n## Step 3: FULL Breakdown\n\nItemMeta meta = sword.getItemMeta();\n→ Gets extra data of item\n\nmeta.setDisplayName(...)\n→ Sets custom name\n\n§6 = gold color\n\nmeta.setLore(...)\n→ Adds description lines\n\nsword.setItemMeta(meta);\n→ IMPORTANT: applies changes\n\n## Step 4: Common Mistake\n\n❌ Forgetting setItemMeta → NOTHING changes\n\n## Step 5: What Happens\n\nPlayer gets:\n- Custom named sword\n- With lore text\n\n## Step 6: Why This Exists\n\nItemStack = base item\nItemMeta = extra data\n\n## Mini Challenge\nChange name color to red (§c)",
         "quiz": [
           {
             "id": "q5",
@@ -68,50 +68,10 @@
         ]
       },
       {
-        "id": "item-enchantments",
-        "title": "Item Enchantments & Flags",
-        "order": 4,
-        "content": "# Adding Enchantments\n\n## Example\n```java\nItemStack sword = new ItemStack(Material.DIAMOND_SWORD);\nItemMeta meta = sword.getItemMeta();\nmeta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);\nmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);\nsword.setItemMeta(meta);\nplayer.getInventory().addItem(sword);\n```\n\n## Logic\n- addEnchant(Enchantment, level, ignoreLevelRestriction)\n- ItemFlag hides visuals like enchantment glow\n\n## Edge Cases\n- Level too high → may break balance\n- Some enchantments incompatible with certain items",
-        "quiz": [
-          {
-            "id": "q7",
-            "question": "Method to enchant item?",
-            "options": ["enchant()", "addEnchant()", "setEnchant()", "applyEnchant()"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q8",
-            "question": "Hiding enchant visuals?",
-            "options": ["hide()", "ItemFlag.HIDE_ENCHANTS", "setInvisible()", "removeGlow()"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
-        "id": "material-types",
-        "title": "Understanding Materials",
-        "order": 5,
-        "content": "# Materials Overview\n\nMaterials define the type of block or item.\n\n## Example\n```java\nMaterial mat = Material.DIAMOND_BLOCK;\nMaterial mat2 = Material.OAK_PLANKS;\n```\n\n## Logic\n- Use Material enum\n- Matches any block/item type\n\n## Edge Cases\n- Some materials deprecated\n- Not all materials usable in certain versions",
-        "quiz": [
-          {
-            "id": "q9",
-            "question": "What is Material?",
-            "options": ["String", "Enum", "Integer", "Class"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q10",
-            "question": "Material.DIAMOND_BLOCK refers to?",
-            "options": ["An item", "A block", "An entity", "A player"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
         "id": "block-interactions",
-        "title": "Block Interactions & Events",
-        "order": 6,
-        "content": "# Listening to Block Events\n\n## Example: Detect Block Break\n```java\n@EventHandler\npublic void onBlockBreak(BlockBreakEvent event) {\n    Block block = event.getBlock();\n    if (block.getType() == Material.DIAMOND_BLOCK) {\n        event.setDropItems(false);\n        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.EMERALD, 2));\n    }\n}\n```\n\n## Logic\n- Detect block type\n- Cancel or modify drops\n- Spawn custom items\n\n## Edge Cases\n- Event may be cancelled by other plugins\n- Too many drops → lag",
+        "title": "Block Events (VERY IMPORTANT)",
+        "order": 4,
+        "content": "# Block Events (FULL GUIDE)\n\n## Step 1: Where This Goes\n\nCreate a NEW class:\n\nBlockListener.java\n\n## Step 2: Class Structure\n\n```java\npublic class BlockListener implements Listener {\n\n    @EventHandler\n    public void onBlockBreak(BlockBreakEvent event) {\n        Block block = event.getBlock();\n\n        if (block.getType() == Material.DIAMOND_BLOCK) {\n            event.setDropItems(false);\n            block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.EMERALD, 2));\n        }\n    }\n}\n```\n\n## Step 3: Breakdown\n\n@EventHandler\n→ tells Spigot this is an event\n\nBlockBreakEvent\n→ runs when block breaks\n\nif (block.getType() == Material.DIAMOND_BLOCK)\n→ checks block type\n\nsetDropItems(false)\n→ stops normal drops\n\ndropItemNaturally(...)\n→ spawns custom items\n\n## Step 4: IMPORTANT\n\nYou MUST register this in main class:\n\ngetServer().getPluginManager().registerEvents(new BlockListener(), this);\n\n## Step 5: What Happens\n\nBreaking diamond block → gives emeralds instead\n\n## Step 6: Common Mistakes\n\n❌ Forgetting to register event\n→ NOTHING happens\n\n## Mini Challenge\nMake stone drop diamonds",
         "quiz": [
           {
             "id": "q11",
@@ -124,32 +84,6 @@
             "question": "Method to check block type?",
             "options": ["getMaterial()", "getType()", "checkType()", "blockType()"],
             "correctIndex": 1
-          }
-        ]
-      },
-      {
-        "id": "advanced-itemstacks",
-        "title": "Advanced ItemStack Techniques",
-        "order": 7,
-        "content": "# Advanced Techniques\n\n## Cloning Items\n```java\nItemStack original = new ItemStack(Material.DIAMOND_SWORD);\nItemStack clone = original.clone();\n```\n\n## Checking Item Type\n```java\nif (item.getType() == Material.DIAMOND_SWORD) {}\n```\n\n## Modifying Amount\n```java\nitem.setAmount(10);\n```\n\n## Logic\n- clone() → copies ItemStack\n- getType() → check item\n- setAmount() → change stack size\n\n## Edge Cases\n- Modifying immutable ItemStacks may cause unexpected behavior",
-        "quiz": [
-          {
-            "id": "q13",
-            "question": "Method to copy ItemStack?",
-            "options": ["copy()", "clone()", "duplicate()", "new ItemStack()"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q14",
-            "question": "Check item type?",
-            "options": ["getType()", "getMaterial()", "checkType()", "type()"],
-            "correctIndex": 0
-          },
-          {
-            "id": "q15",
-            "question": "Change stack size?",
-            "options": ["setAmount()", "setSize()", "setStack()", "amount()"],
-            "correctIndex": 0
           }
         ]
       }
