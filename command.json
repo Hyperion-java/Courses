@@ -2,16 +2,16 @@
   {
     "id": "commands-system",
     "title": "Mastering Minecraft Commands",
-    "description": "Learn how to create powerful commands in your Minecraft plugin with arguments, permissions, tab completion, and more.",
+    "description": "A complete step-by-step guide to building commands from scratch with full explanations, structure, permissions, tab completion, and debugging.",
     "icon": "🛠️",
     "order": 0,
     "createdAt": "2025-01-01T00:00:00.000Z",
     "lessons": [
       {
         "id": "command-basics",
-        "title": "Command Basics",
+        "title": "Command Basics (FULL SETUP)",
         "order": 1,
-        "content": "# Creating Your First Command\n\n## Step 1: Register in plugin.yml\n```yml\ncommands:\n  hello:\n    description: Says hello\n```\n\n## Step 2: Command Class\n```java\npublic class HelloCommand implements CommandExecutor {\n    @Override\n    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {\n        sender.sendMessage(\"Hello, world!\");\n        return true;\n    }\n}\n```\n\n## Step 3: Register in Main Class\n```java\ngetCommand(\"hello\").setExecutor(new HelloCommand());\n```\n\n## Logic\n- Player types command\n- Server finds command\n- Executes onCommand()\n\n## Test\nRun `/hello` in game.",
+        "content": "# Command Basics (FULL GUIDE)\n\n## Step 1: Open Your Project\n\nOpen IntelliJ\n→ Open your plugin project\n\nYou will work in TWO places:\n1. plugin.yml\n2. Java classes\n\n---\n\n## Step 2: Register Command (plugin.yml)\n\nOpen:\nsrc/main/resources/plugin.yml\n\nAdd:\n\n```yml\ncommands:\n  hello:\n    description: Says hello\n```\n\n### Breakdown:\ncommands:\n→ section for commands\n\nhello:\n→ command name (/hello)\n\n---\n\n## Step 3: Create Command Class\n\nCreate new file:\nHelloCommand.java\n\nPath:\nsrc/main/java/your/package/HelloCommand.java\n\n```java\npublic class HelloCommand implements CommandExecutor {\n\n    @Override\n    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {\n        sender.sendMessage(\"Hello, world!\");\n        return true;\n    }\n}\n```\n\n---\n\n## Step 4: FULL Breakdown\n\npublic class HelloCommand\n→ defines class\n\nimplements CommandExecutor\n→ tells Spigot this class handles commands\n\nonCommand(...)\n→ THIS method runs when command is used\n\nCommandSender sender\n→ who ran command\n\nString[] args\n→ arguments\n\nreturn true;\n→ tells server command worked\n\n---\n\n## Step 5: Register Command in Main Class\n\nOpen Main.java\n\nInside onEnable():\n\n```java\ngetCommand(\"hello\").setExecutor(new HelloCommand());\n```\n\n### Breakdown:\ngetCommand(\"hello\")\n→ finds command from plugin.yml\n\nsetExecutor(...)\n→ assigns class to run it\n\n---\n\n## Step 6: Run & Test\n\n1. Start server\n2. Join Minecraft\n3. Run:\n/hello\n\nExpected:\nHello, world!\n\n---\n\n## Step 7: Common Errors\n\n❌ Command not in plugin.yml\n❌ Forgot setExecutor\n❌ Spelling mismatch\n\n---\n\n## Mini Challenge\nChange message to \"Welcome!\"\n\n## Recap\nplugin.yml → register\nclass → logic\nmain → connect",
         "quiz": [
           {
             "id": "q1",
@@ -37,7 +37,7 @@
         "id": "command-sender",
         "title": "Command Sender & Player Checks",
         "order": 2,
-        "content": "# Command Sender\n\nCommands can be run by players OR console.\n\n## Example\n```java\nif (!(sender instanceof Player)) {\n    sender.sendMessage(\"Only players can use this!\");\n    return true;\n}\n\nPlayer player = (Player) sender;\nplayer.sendMessage(\"Hello player!\");\n```\n\n## Logic\n- Check sender type\n- Cast safely\n\n## Edge Case\nConsole has no location or inventory.",
+        "content": "# Command Sender (FULL GUIDE)\n\n## Step 1: Problem\n\nCommands can be run by:\n- Players\n- Console\n\nConsole has NO:\n- location\n- inventory\n\n---\n\n## Step 2: Code\n\n```java\nif (!(sender instanceof Player)) {\n    sender.sendMessage(\"Only players can use this!\");\n    return true;\n}\n\nPlayer player = (Player) sender;\n```\n\n---\n\n## Step 3: FULL Breakdown\n\ninstanceof\n→ checks type\n\n!(...)\n→ NOT\n\n(Player) sender\n→ casting (converting type)\n\n---\n\n## Step 4: Why This Matters\n\nIf you skip this:\n→ server crashes when console runs command\n\n---\n\n## Step 5: What Happens\n\nConsole runs → blocked\nPlayer runs → allowed\n\n---\n\n## Mini Challenge\nSend player their name\n\n## Recap\nAlways check before casting",
         "quiz": [
           {
             "id": "q4",
@@ -60,36 +60,10 @@
         ]
       },
       {
-        "id": "arguments",
-        "title": "Using Arguments",
-        "order": 3,
-        "content": "# Arguments\n\nArguments are extra inputs after a command.\n\n## Example\n`/hello Steve`\n\n```java\nif (args.length > 0) {\n    sender.sendMessage(\"Hello \" + args[0]);\n} else {\n    sender.sendMessage(\"Hello!\");\n}\n```\n\n## Logic\n- args[0] = first word\n- Always check length first\n\n## Edge Case\nAccessing args[0] without checking causes errors.",
-        "quiz": [
-          {
-            "id": "q7",
-            "question": "What is args[0]?",
-            "options": ["Command name", "First argument", "Player", "Plugin"],
-            "correctIndex": 1
-          },
-          {
-            "id": "q8",
-            "question": "What must you check first?",
-            "options": ["args.length", "sender", "command", "plugin"],
-            "correctIndex": 0
-          },
-          {
-            "id": "q9",
-            "question": "What happens if args empty?",
-            "options": ["Works fine", "Error", "Server crash", "Nothing"],
-            "correctIndex": 1
-          }
-        ]
-      },
-      {
         "id": "permissions",
-        "title": "Permissions",
-        "order": 4,
-        "content": "# Permissions\n\n## plugin.yml\n```yml\ncommands:\n  hello:\n    permission: myplugin.hello\n```\n\n## Java Check\n```java\nif (!sender.hasPermission(\"myplugin.hello\")) {\n    sender.sendMessage(\"No permission!\");\n    return true;\n}\n```\n\n## Logic\n- Check before running command\n\n## Test\nTry command without permission.",
+        "title": "Permissions (FULL GUIDE)",
+        "order": 3,
+        "content": "# Permissions (FULL GUIDE)\n\n## Step 1: plugin.yml\n\n```yml\ncommands:\n  hello:\n    permission: myplugin.hello\n```\n\n---\n\n## Step 2: Code Check\n\n```java\nif (!sender.hasPermission(\"myplugin.hello\")) {\n    sender.sendMessage(\"No permission!\");\n    return true;\n}\n```\n\n---\n\n## Step 3: Breakdown\n\nhasPermission(...)\n→ checks permission\n\n! → NOT\n\n---\n\n## Step 4: Where This Goes\n\nTOP of command method\n\n---\n\n## Step 5: What Happens\n\nNo permission → blocked\n\n---\n\n## Mini Challenge\nChange permission name\n\n## Recap\nAlways protect commands",
         "quiz": [
           {
             "id": "q10",
@@ -107,9 +81,9 @@
       },
       {
         "id": "tab-completion",
-        "title": "Tab Completion",
-        "order": 5,
-        "content": "# Tab Completion\n\n## Example\n```java\npublic class HelloTab implements TabCompleter {\n    @Override\n    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {\n        if (args.length == 1) {\n            return Arrays.asList(\"Steve\", \"Alex\");\n        }\n        return Collections.emptyList();\n    }\n}\n```\n\n## Register\n```java\ngetCommand(\"hello\").setTabCompleter(new HelloTab());\n```\n\n## Logic\n- Suggest options based on args length",
+        "title": "Tab Completion (FULL GUIDE)",
+        "order": 4,
+        "content": "# Tab Completion (FULL GUIDE)\n\n## Step 1: Create Class\n\nHelloTab.java\n\n## Step 2: Code\n\n```java\npublic class HelloTab implements TabCompleter {\n\n    @Override\n    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {\n\n        if (args.length == 1) {\n            return Arrays.asList(\"Steve\", \"Alex\");\n        }\n\n        return Collections.emptyList();\n    }\n}\n```\n\n---\n\n## Step 3: Register\n\n```java\ngetCommand(\"hello\").setTabCompleter(new HelloTab());\n```\n\n---\n\n## Step 4: What Happens\n\nType:\n/hello <TAB>\n\n→ shows suggestions\n\n---\n\n## Step 5: Why Useful\n\n- Helps users\n- Prevents mistakes\n\n---\n\n## Mini Challenge\nAdd more names\n\n## Recap\nTab = suggestions",
         "quiz": [
           {
             "id": "q12",
@@ -127,9 +101,9 @@
       },
       {
         "id": "advanced-commands",
-        "title": "Advanced Command Logic",
-        "order": 6,
-        "content": "# Subcommands\n\n## Example\n```java\nif (args.length == 0) {\n    sender.sendMessage(\"/hello reload\");\n    return true;\n}\n\nif (args[0].equalsIgnoreCase(\"reload\")) {\n    sender.sendMessage(\"Reloaded!\");\n}\n```\n\n## Logic\n- args[0] decides action\n\n## Expand\n- /hello give\n- /hello reload\n- /hello info",
+        "title": "Advanced Commands (Subcommands)",
+        "order": 5,
+        "content": "# Subcommands (FULL GUIDE)\n\n## Step 1: Structure\n\n```java\nif (args.length == 0) {\n    sender.sendMessage(\"/hello reload\");\n    return true;\n}\n\nif (args[0].equalsIgnoreCase(\"reload\")) {\n    sender.sendMessage(\"Reloaded!\");\n}\n```\n\n---\n\n## Step 2: Breakdown\n\nargs[0]\n→ decides action\n\n.equalsIgnoreCase\n→ ignores capital letters\n\n---\n\n## Step 3: Why This Is Powerful\n\nYou can create:\n/hello give\n/hello reload\n/hello info\n\n---\n\n## Mini Challenge\nAdd /hello help\n\n## Recap\nargs[0] controls command system",
         "quiz": [
           {
             "id": "q14",
@@ -147,9 +121,9 @@
       },
       {
         "id": "testing-debugging",
-        "title": "Testing & Debugging Commands",
-        "order": 7,
-        "content": "# Debugging\n\n## Example\n```java\ngetLogger().info(\"Command executed\");\n```\n\n## Common Errors\n- Command not in plugin.yml\n- Not registered\n- Wrong spelling\n\n## Testing Steps\n1. Run command\n2. Check console\n3. Add logs\n\n## Edge Case\nCommand returns false → shows usage message",
+        "title": "Testing & Debugging",
+        "order": 6,
+        "content": "# Debugging Commands (FULL GUIDE)\n\n## Step 1: Add Logs\n\n```java\ngetLogger().info(\"Command executed\");\n```\n\n---\n\n## Step 2: Test Process\n\n1. Run command\n2. Check console\n3. Fix errors\n\n---\n\n## Step 3: Common Errors\n\n- Not in plugin.yml\n- Not registered\n- Typo in name\n\n---\n\n## Step 4: Important Rule\n\nreturn false;\n→ shows usage from plugin.yml\n\nreturn true;\n→ silent success\n\n---\n\n## Mini Challenge\nAdd debug message with args\n\n## Recap\nDebug = logs + testing",
         "quiz": [
           {
             "id": "q16",
