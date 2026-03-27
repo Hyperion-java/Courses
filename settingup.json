@@ -44,5 +44,72 @@
         ]
       }
     ]
+  },
+  {
+    "id": "module-world-control",
+    "title": "World, Weather & Time Control",
+    "description": "Learn to manipulate Minecraft worlds, control weather, and adjust time using plugins.",
+    "icon": "🌍",
+    "order": 2,
+    "createdAt": "2026-03-26T21:50:00.000Z",
+    "lessons": [
+      {
+        "id": "lesson-world-management",
+        "title": "World Management Basics",
+        "order": 1,
+        "content": "...(content as previously formatted)...",
+        "quiz": [...(previous world quiz)]
+      },
+      {
+        "id": "lesson-weather-control",
+        "title": "Changing Weather",
+        "order": 2,
+        "content": "...(content as previously formatted)...",
+        "quiz": [...(previous weather quiz)]
+      },
+      {
+        "id": "lesson-time-control",
+        "title": "Setting World Time",
+        "order": 3,
+        "content": "...(content as previously formatted)...",
+        "quiz": [...(previous time quiz)]
+      }
+    ]
+  },
+  {
+    "id": "module-sounds",
+    "title": "Sounds & Audio Feedback",
+    "description": "Learn how to play sounds to players for effects, notifications, and immersive gameplay.",
+    "icon": "🔊",
+    "order": 4,
+    "createdAt": "2026-03-26T22:30:00.000Z",
+    "lessons": [...(sounds lessons)]
+  },
+  {
+    "id": "module-projectiles",
+    "title": "Projectiles & Arrows",
+    "description": "Learn how to control, customize, and handle projectiles like arrows, snowballs, and fireballs in Minecraft plugins.",
+    "icon": "🏹",
+    "order": 7,
+    "createdAt": "2026-03-26T23:30:00.000Z",
+    "lessons": [...(projectiles lessons)]
+  },
+  {
+    "id": "module-riding-entities",
+    "title": "Riding & Mounting Entities",
+    "description": "Learn how to allow players to ride and control entities, spawn mounts, and manage passengers in Minecraft plugins.",
+    "icon": "🐴",
+    "order": 8,
+    "createdAt": "2026-03-26T23:50:00.000Z",
+    "lessons": [...(riding lessons)]
+  },
+  {
+    "id": "module-toggling",
+    "title": "Toggling Features & States",
+    "description": "Learn how to implement toggles for plugin features, player states, and custom mechanics in Minecraft.",
+    "icon": "🔄",
+    "order": 10,
+    "createdAt": "2026-03-27T00:30:00.000Z",
+    "lessons": [...(toggling lessons)]
   }
 ]
